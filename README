@@ -1,0 +1,11 @@
+Incomplete, in development.
+
+Implementing a Binary Tree in Java, later to joined by a Priority Queue repo,
+both to be used in developing a Huffman routine. This will be used to augment
+the performance of the Perl routine in ITFC and BISONTE repos, which should
+make the textfile compressor (comprised of these combined) consistently more
+efficient than gzip (currently it is on average about the same).
+
+The resultant code stack could then be restructured to be entirely in Perl or
+in Java or both, possibly with a GUI in Java.
+
