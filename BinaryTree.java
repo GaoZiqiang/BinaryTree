@@ -40,12 +40,12 @@ public class BinaryTree<E> {
     return (hasLeft(n) || hasRight(n));
   }
 
-  /*public Iterable<Node<E>> getChildList(Node<E> n) {
-    NodeList<Node<E>> childList = new NodeList<Node<E>>(); 
-    if (hasLeft(n)) childList.addLast(n.getLeft);
-    if (hasRight(n)) childList.addLast(n.getRight);
+  public NodeList<E> getChildList(Node<E> n) throws InvalidNodeException {
+    NodeList<E> childList = new NodeList<E>(); 
+    if (hasLeft(n)) childList.addLast(n.getLeft().getElement());
+    if (hasRight(n)) childList.addLast(n.getRight().getElement());
     return childList;
-  }*/
+  }
   
   public static void main(String[] args) {
          
