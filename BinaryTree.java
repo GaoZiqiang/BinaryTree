@@ -17,6 +17,24 @@ public class BinaryTree<E> {
     return root;
   }
   
+  public Node<E> getParent(Node<E> n) throws BoundaryException {
+    Node<E> p = n.getparent();
+    if (p == null) throw new BoundaryException("No parent");
+    return p;
+  } 
+ 
+  public Node<E> getLeft(Node<E> n) throws BoundaryException {
+    Node<E> l = n.getLeft();
+    if (l == null) throw new BoundaryException("No left child");
+    return l;
+  }
+
+  public Node<E> getRight(Node<E> n) throws BoundaryException {
+    Node<E> r = n.getRight();
+    if (r == null) throw new BoundaryException("No right child");
+    return r;
+  }
+  
   public boolean hasLeft(Node<E> n) throws InvalidNodeException {
     if (n == null) throw new InvalidNodeException("Node is null");
     return (n.getLeft() != null);
@@ -39,7 +57,7 @@ public class BinaryTree<E> {
     if (n == null) throw new InvalidNodeException("Node is null");
     return (hasLeft(n) || hasRight(n));
   }
-
+  
   public NodeList<E> getChildList(Node<E> n) throws InvalidNodeException {
     NodeList<E> childList = new NodeList<E>(); 
     if (hasLeft(n)) childList.addLast(n.getLeft().getElement());
@@ -47,6 +65,31 @@ public class BinaryTree<E> {
     return childList;
   }
   
+  public NodeList<Node<E>> getTreeList() 
+  throws InvalidNodeException, EmptyTreeException {
+    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
+    if (btSize != 0) getSubtreeList(getRoot(), treeList);
+    return treeList;
+  }
+  //xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  public void getSubtreeList(Node<E> n, NodeList<Node<E>> l) 
+  throws InvalidNodeException, EmptyTreeException {
+    l.addLast(n);
+    if (hasLeft(n)) getSubtreeList(n.getLeft(), l); //use Node getLeft
+    if (hasRight(n)) getSubtreeList(n.getRight(), l);// or BT getLeft?
+  }
+ 
+  public Node<E> getParent(Node<E> n) {
+    Node<E> p = n.getParent();
+    return p;
+  }
+  
+  public E replaceElement(Node<E> n, E e) throws InvalidNodeException {
+    E oldElement = n.getElement();
+    n.setElement(e);
+    return oldElement;
+  }
+
   public static void main(String[] args) {
          
   }
@@ -60,7 +103,6 @@ public class BinaryTree<E> {
       setLeft(l);    
       setRight(r); 
     }
-
     public E getElement() throws InvalidNodeException {
       if ((parent == null) && (left == null) && (right == null)) 
         throw new InvalidNodeException("Invalid node");
