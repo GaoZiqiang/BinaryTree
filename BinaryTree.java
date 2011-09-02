@@ -78,8 +78,8 @@ public class BinaryTree<E> {
   
   public NodeList<E> getChildList(Node<E> n) throws InvalidNodeException {
     NodeList<E> childList = new NodeList<E>(); 
-    if (hasLeft(n)) childList.addLast(n.getLeft().getElement());
-    if (hasRight(n)) childList.addLast(n.getRight().getElement());
+    if (hasLeft(n)) childList.addLast(n.getLeft().getElement());  // Recursive
+    if (hasRight(n)) childList.addLast(n.getRight().getElement()); // Recursive
     return childList;
   }
   
@@ -96,29 +96,135 @@ public class BinaryTree<E> {
     if (hasLeft(n)) getSubtreeList(n.getLeft(), l); //use Node getLeft
     if (hasRight(n)) getSubtreeList(n.getRight(), l);// or BT getLeft?
   }
-  /////////////////////////////////////////////////////////////////////////
+  
   public void getSubtreeLevelsList(Node<E> n, NodeList<Integer> l) 
   throws InvalidNodeException, EmptyTreeException {
     l.addLast(n.getLevel());
     if (hasLeft(n)) getSubtreeLevelsList(n.getLeft(), l); 
     if (hasRight(n)) getSubtreeLevelsList(n.getRight(), l);
   }
-  //////////////////////////////////////////////////////////////////////////
-  // Augment level property in easch node of a tree by same amount
-  public void augmentSubTreeLevels(Node<E> root, int aug) 
+  // Augment level property in each node of a tree by same amount
+  /*public void augmentSubTreeLevels(Node<E> root, int aug) 
   throws InvalidNodeException {
     //Node<E> n = t.getRoot();
     root.level = root.getLevel() + aug;
     if (hasLeft(root)) augmentSubTreeLevels(root.getLeft(), aug); // Recursive
     if (hasRight(root)) augmentSubTreeLevels(root.getRight(), aug); // Recursive
-  }  
+  } */ 
   ////////////////////////////////////////////////////////////////////////
-  public void printTreeDiagram(BinaryTree<E> t) {
+  public void printTreeDiagram(BinaryTree<E> t) throws 
+  InvalidNodeException, EmptyTreeException, EmptyListException {
+    int height = this.getBTHeight();
     
+    NodeList<Node<E>> list = this.getTreeList();
+    ListNode<Node<E>> root = list.getFirst();
+    Integer rootEl = (Integer) root.getElement().getElement(); 
+    
+    for (int i = 0; i < height * 5; i++) {
+      System.out.print(" ");
+    }
+    System.out.println(rootEl);
   }
+  /////////////////////////////////////////////////////////////////////
+  public void printDiagram(BinaryTree<E> t) throws 
+  InvalidNodeException, EmptyTreeException, EmptyListException {
+    System.out.println("This rough diagram must be run on a full screen");
+    int height = this.getBTHeight(); 
+    //int size = this.getBTSize();
+    Node<E> root = this.getRoot();
+    Node<E> left = root.getLeft();
+    Node<E> right = root.getRight();
+
+    Node<E> ll = left.getLeft();
+    Node<E> lr = left.getRight();
+    Node<E> lll = ll.getLeft();
+    Node<E> llr = ll.getRight();
+    Node<E> lrl = lr.getLeft();
+    Node<E> lrr = lr.getRight();
+
+    Node<E> rl = right.getLeft();
+    Node<E> rr = right.getRight();
+    Node<E> rll = rl.getLeft();
+    Node<E> rlr = rl.getRight();
+    Node<E> rrl = rr.getLeft();
+    Node<E> rrr = rr.getRight();
+  
+    Integer el = (Integer) root.getElement();     
+    for (int i = 0; i < 64; i++) {
+      System.out.print(" ");
+    }
+    System.out.println(el);
+
+    this.iterateDiagram(root, 64, 32);
+    System.out.println();
+    this.iterateDiagram(left, 32, 16);
+    System.out.print("              "); // temporary hack, 14 spaces
+    this.iterateDiagram(right, 32, 16);
+    System.out.println();
+
+    this.iterateDiagram(ll, 16, 8);
+    System.out.print("      "); // temporary hack, 6 spaces
+    this.iterateDiagram(lr, 16, 8);
+    System.out.print("      "); // temporary hack, 6 spaces
+    this.iterateDiagram(rl, 16, 8);
+    System.out.print("      "); // temporary hack, 6 spaces
+    this.iterateDiagram(rr, 16, 8);
+    System.out.println();
+
+    this.iterateDiagram(lll, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(llr, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(lrl, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(lrr, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(rll, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(rlr, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(rrl, 8, 4);
+    System.out.print("  ");
+    this.iterateDiagram(rrr, 8, 4);
+    System.out.println();
  
-  public Node<E> setRoot(E e) 
-  throws TreeNotEmptyException {
+  }
+
+  public void iterateDiagram(Node<E> n, int pos, int offset) 
+  throws InvalidNodeException {    
+    Node<E> l = null;
+    Node<E> r = null;
+    Integer lEl = null;
+    Integer rEl = null;
+    boolean leftFirst = false;
+    if (hasLeft(n)) l = n.getLeft(); 
+    if (hasRight(n)) r = n.getRight();
+    if (l != null) {
+      lEl = (Integer) l.getElement();
+      for (int i = 0; i < pos - offset; i++) {
+        System.out.print(" ");
+      }
+      System.out.print(lEl);
+      leftFirst = true;
+    }
+    if (r != null) {
+      int ofst = offset;
+      if (leftFirst) ofst = 2*offset - pos; //If leftFirst then
+      rEl = (Integer) r.getElement(); // i < pos + offset -(pos -offset)
+      for (int i = 0; i < pos + ofst -2; i++) { // = pos + 2*offset -pos = 2*offset, so
+        System.out.print(" ");        // pos + ofst = 2*offset, so
+      }                               // ofst = 2*offset - pos
+    System.out.print(rEl);  
+    }                      
+      //System.out.println();
+  }
+
+
+  public void setBTHeight(int i) {
+    this.btHeight = i;
+  }
+
+  public Node<E> setRoot(E e) throws TreeNotEmptyException {
     if (!isEmpty()) throw new TreeNotEmptyException("Tree is not empty");
     btSize = 1;
     btHeight = 1;
@@ -188,26 +294,71 @@ public class BinaryTree<E> {
     n.setElement(e);
     return oldElement;
   }
+ 
+  // METHOD IN ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // Augment level property in each node of a tree by same amount
+  public void augmentSubTreeLevels(Node<E> topSub, int aug) 
+  throws InvalidNodeException {
+    //Node<E> n = t.getRoot();
+
+    Integer elv = (Integer) topSub.getElement();
+    System.out.println("topSub, INPUT NODE EL:  " + elv);
+
+    System.out.println("TEST AUG " + aug);
+    int newValue = topSub.getLevel() + aug;// TEST PURPOSE
+    System.out.println("TEST NEWVALUE " + newValue);
+
+    topSub.setLevel(newValue);//topSub.getLevel() + aug);
+    if (hasLeft(topSub)) this.augmentSubTreeLevels(topSub.getLeft(), aug); // Recursive
+    if (hasRight(topSub)) this.augmentSubTreeLevels(topSub.getRight(), aug); // Recursive
+  } 
+
+/////////////////////////////////////////////////////////////////////////////
+public void setDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
+    int parentLevel = rootSub.getParent().getLevel();
+    rootSub.setLevel(parentLevel + 1);
+    if (hasLeft(rootSub)) this.setDescendentLevels(rootSub.getLeft()); // Recursive
+    if (hasRight(rootSub)) this.setDescendentLevels(rootSub.getRight());// Recursive
+  } 
+
+
   
   // Attach two trees as subtrees of an external node
   // i.e. the roots of these trees become children of the node
-  // NEED TO CONSIDER HEIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   public void attachTrees(Node<E> n, BinaryTree<E> TLeft, BinaryTree<E> TRight) 
   throws InvalidNodeException, EmptyTreeException {
     if (isInternal(n)) throw new InvalidNodeException("Node is not external");
     btSize = btSize + TLeft.getBTSize() + TRight.getBTSize();
-    TLeft.augmentSubTreeLevels(TLeft.getRoot(), this.getBTHeight());
-    TRight.augmentSubTreeLevels(TRight.getRoot(), this.getBTHeight());
+    int TLeftHeight = TLeft.getBTHeight();
+    System.out.println("TLeftHeight " + TLeftHeight);
+    int TRightHeight = TRight.getBTHeight();
+    System.out.println("TRightHeight " + TRightHeight);
+    int maxSubHeight = (TLeftHeight > TRightHeight) ? TLeftHeight : TRightHeight;
+    System.out.println("maxSubHeight " + maxSubHeight);
+    int oldHeight = this.getBTHeight();
+    System.out.println("oldHeight " + oldHeight);
+    int attachmentNodeLevel = n.getLevel(); // ANOMOLY OCCURS SOMETIMES
+    System.out.println("attachmentNodeLevel " + attachmentNodeLevel);
+    int hOffset = oldHeight - attachmentNodeLevel;
+    System.out.println("hOffset " + hOffset);
+    this.setBTHeight(oldHeight + maxSubHeight - hOffset);
     if (!TLeft.isEmpty()) {
       Node<E> leftTreeRoot = TLeft.getRoot();
       n.setLeft(leftTreeRoot);
       leftTreeRoot.setParent(n);
+      leftTreeRoot.setLevel(attachmentNodeLevel);/////////////////////
+      setDescendentLevels(leftTreeRoot);
+      //augmentSubTreeLevels(leftTreeRoot, attachmentNodeLevel);
     }
     if (!TRight.isEmpty()) {
       Node<E> rightTreeRoot = TRight.getRoot();
       n.setRight(rightTreeRoot);
       rightTreeRoot.setParent(n);
+      rightTreeRoot.setLevel(attachmentNodeLevel);/////////////////////
+      setDescendentLevels(rightTreeRoot);
+      //augmentSubTreeLevels(rightTreeRoot, attachmentNodeLevel);
     }   
+    
   }
  
   // Print the integer elements stored in each node
@@ -300,15 +451,15 @@ public class BinaryTree<E> {
     bt4.getSubtreeLevelsList(bt4.getRoot(), levelsList);
     System.out.println("BT4 Size: " + bt4.getBTSize());
     printList2(levelsList);
-  }
+  }// end testRoutine1
 
   // MAIN METHOD- TEST PURPOSES ////////////////////////////////////////
   public static void main(String[] args) 
   throws EmptyTreeException, TreeNotEmptyException,
   InvalidNodeException, BoundaryException, EmptyListException {
     
-    testRoutine1();   
-    
+    //testRoutine1();   
+   /* 
     System.out.println();
     BinaryTree<Integer> bt = new BinaryTree<Integer>();
     bt.setRoot(0);
@@ -319,7 +470,7 @@ public class BinaryTree<E> {
     Node<Integer> leftCh = bt.setLeft(root, 1);
     Node<Integer> rightCh = bt.setRight(root, 2);
     System.out.println("Size: " + bt.getBTSize());
-
+*/
     BinaryTree<Integer> bt2 = new BinaryTree<Integer>();
     BinaryTree<Integer> bt3 = new BinaryTree<Integer>();
     Node<Integer> root2 = bt2.setRoot(10);
@@ -328,6 +479,7 @@ public class BinaryTree<E> {
     Node<Integer> root3 = bt3.setRoot(20);
     bt3.setLeft(root3, 21);
     bt3.setRight(root3, 22);
+  /*System.out.println("BT Height before attach: " + bt.getBTHeight());
     bt.attachTrees(rightCh, bt2, bt3); // Attach trees
     System.out.println("BT Size: " + bt.getBTSize());
 
@@ -355,12 +507,111 @@ public class BinaryTree<E> {
     System.out.print("BT list: ");
     printList(nListA); // Print list
 
-    bt.augmentSubTreeLevels(bt.getRoot(), 5); 
+    //bt.augmentSubTreeLevels(bt.getRoot(), 5); 
     NodeList<Integer> levelsList3 = new NodeList<Integer>();
     bt.getSubtreeLevelsList(bt.getRoot(), levelsList3);
     System.out.print("BT Levels Augmented: ");
     printList2(levelsList3);
+  
+    System.out.println("BT Height after attach: " + bt.getBTHeight());
+    
+    //bt.printTreeDiagram(bt);
+    //bt.printDiagram(bt);
+    System.out.println();   
+ */
+    
 
+    BinaryTree<Integer> bt70 = new BinaryTree<Integer>();
+    bt70.setRoot(70);
+    Node<Integer> rt = bt70.getRoot();
+    Node<Integer> lCh = bt70.setLeft(rt, 71);
+    Node<Integer> rCh = bt70.setRight(rt, 72);
+    Node<Integer> llCh = bt70.setLeft(lCh, 73);
+    Node<Integer> lrCh = bt70.setRight(lCh, 74);
+    Node<Integer> rlCh = bt70.setLeft(rCh, 75);
+    Node<Integer> rrCh = bt70.setRight(rCh, 76);
+    //bt70.printDiagram(bt70);
+    System.out.println();
+
+    bt70.attachTrees(llCh, bt2, bt3); // Attach trees
+    bt70.attachTrees(lrCh, bt2, bt3); // Attach trees
+    bt70.attachTrees(rlCh, bt2, bt3); // Attach trees
+    bt70.attachTrees(rrCh, bt2, bt3); // Attach trees
+  ///////////////////////////////////////////////////////////////////////
+       
+    Node<Integer> lll = llCh.getLeft();
+    Node<Integer> llr = llCh.getRight();
+    Node<Integer> lrl = lrCh.getLeft();
+    Node<Integer> lrr = lrCh.getRight();
+    Node<Integer> rll = rlCh.getLeft();
+    Node<Integer> rlr = rlCh.getRight();
+    Node<Integer> rrl = rrCh.getLeft();
+    Node<Integer> rrr = rrCh.getRight();
+   
+    Node<Integer> llll = lll.getLeft();
+    Node<Integer> lllr = lll.getRight();
+    Node<Integer> llrl = llr.getLeft();
+    Node<Integer> llrr = llr.getRight();
+    Node<Integer> lrll = lrl.getLeft();
+    Node<Integer> lrlr = lrl.getRight();
+    Node<Integer> lrrl = lrr.getLeft();
+    Node<Integer> lrrr = lrr.getRight();
+    Node<Integer> rlll = rll.getLeft();
+    Node<Integer> rllr = rll.getRight();
+    Node<Integer> rlrl = rlr.getLeft();
+    Node<Integer> rlrr = rlr.getRight();
+    Node<Integer> rrll = rrl.getLeft();
+    Node<Integer> rrlr = rrl.getRight();
+    Node<Integer> rrrl = rrr.getLeft();
+    Node<Integer> rrrr = rrr.getRight();    
+
+    Integer i = llll.getElement();
+    System.out.println("Element of llll: " + i);
+   
+    Integer l2lev = llCh.getLevel();
+    System.out.println("Level of ll: " + l2lev); // Gives 3 correct
+    Integer l3lev = lll.getLevel();
+    System.out.println("Level of lll: " + l3lev); // Gives 30, Rqr 4 XXXXX
+    Integer l4lev = llll.getLevel();
+    System.out.println("Level of llll: " + l4lev); // Gives 31
+
+    BinaryTree<Integer> bt88 = new BinaryTree<Integer>();
+    bt88.setRoot(8);
+    Integer lev = bt88.getRoot().getLevel();
+    System.out.println("Level of BT88: " + lev);
+    BinaryTree<Integer> bt99 = new BinaryTree<Integer>();
+    bt99.setRoot(9);
+    System.out.println("       FINAL ATTACH ");
+    bt70.attachTrees(llll, bt88, bt99); // Attach trees///////////////////
+    /*
+
+    Node<Integer> lllll = llll.getLeft();
+    i = lllll.getElement();
+    System.out.println("Element of lllll: " + i);
+    */
+    
+    //bt70.attachTrees(, bt8, bt9); // Attach trees
+    //bt70.attachTrees(, bt8, bt9); // Attach trees
+    //bt70.attachTrees(, bt8, bt9); // Attach trees     
+  ////////////////////////////////////////////////////////////////////  
+    bt70.printDiagram(bt70);
+    System.out.println();
+    
+    Node<Integer> lllll = llll.getRight();
+    Integer l5El = lllll.getLevel();
+    System.out.println("lllll level: " + l5El); 
+
+    int h70 =  bt70.getBTHeight();
+    System.out.println("BT70 Height: " + h70);
+      
+    NodeList<Integer> levelsList70 = new NodeList<Integer>();
+    bt70.getSubtreeLevelsList(bt70.getRoot(), levelsList70);
+    System.out.print("BT70 Levels Augmented: ");
+    printList2(levelsList70);
+    
+    NodeList<Node<Integer>> nListA = bt70.getTreeList(); // Get list
+    System.out.print("BT70 list: ");
+    printList(nListA); // Print list
 
   }// End main
 
