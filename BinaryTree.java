@@ -103,15 +103,44 @@ public class BinaryTree<E> {
     if (hasLeft(n)) getSubtreeLevelsList(n.getLeft(), l); 
     if (hasRight(n)) getSubtreeLevelsList(n.getRight(), l);
   }
-  // Augment level property in each node of a tree by same amount
-  /*public void augmentSubTreeLevels(Node<E> root, int aug) 
-  throws InvalidNodeException {
-    //Node<E> n = t.getRoot();
-    root.level = root.getLevel() + aug;
-    if (hasLeft(root)) augmentSubTreeLevels(root.getLeft(), aug); // Recursive
-    if (hasRight(root)) augmentSubTreeLevels(root.getRight(), aug); // Recursive
-  } */ 
-  ////////////////////////////////////////////////////////////////////////
+
+  public NodeList<DiagramNode<E>> getDiagramList() throws InvalidNodeException,
+  EmptyTreeException, EmptyListException, BoundaryException {
+    NodeList<DiagramNode<E>> diagramList = new NodeList<DiagramNode<E>>();
+    NodeList<Node<E>> treeList = getTreeList();  
+    int size = treeList.getNLSize();
+    int pos=0, pos1=0, pos2=0, pos3=0, pos4=0, pos5=0, pos6=0;
+    boolean levelInBounds = true;
+
+    ListNode<Node<E>> listNode = treeList.getFirst();
+    Node<E> node = listNode.getElement();
+    E element = node.getElement();
+    int level = 1;
+    DiagramNode<E> dn = new DiagramNode<E>(element, level, 1);
+    diagramList.addLast(dn);
+  
+    for (int i = 1; i < size; i++) {
+      listNode = treeList.getNext(listNode);
+      node = listNode.getElement();
+      element = node.getElement();
+      level = node.getLevel();      
+      switch (level) {
+        case 1:  pos1++;  pos = pos1;  break;
+        case 2:  pos2++;  pos = pos2;  break;
+        case 3:  pos3++;  pos = pos3;  break;
+        case 4:  pos4++;  pos = pos4;  break;
+        case 5:  pos5++;  pos = pos5;  break;
+        case 6:  pos6++;  pos = pos6;  break;
+        default: levelInBounds = false;  break;
+      }
+      if (levelInBounds) {        
+        dn = new DiagramNode<E>(element, level, pos);
+        diagramList.addLast(dn);
+      }    
+    }// end for    
+    return diagramList;    
+  } 
+  
   public void printTreeDiagram(BinaryTree<E> t) throws 
   InvalidNodeException, EmptyTreeException, EmptyListException {
     int height = this.getBTHeight();
@@ -125,12 +154,13 @@ public class BinaryTree<E> {
     }
     System.out.println(rootEl);
   }
+
   /////////////////////////////////////////////////////////////////////
   // NEED TO GENERICIZE THIS METHOD
   public void printDiagram(BinaryTree<E> t) throws 
   InvalidNodeException, EmptyTreeException, EmptyListException {
     System.out.println("This rough diagram must be run on a full screen");
-    System.out.println("and is tidiest for trees with onlysingle digit element");
+    System.out.println("and is tidiest for trees with only single digit element");
     System.out.println("e.g. as in common usage of holding binary digits 1,0");
     System.out.println("Only shows top 6 levels"); // Consider enabling diagram
     int height = this.getBTHeight();               // for subtrees
@@ -407,9 +437,32 @@ public class BinaryTree<E> {
       System.out.print( nextNode.getElement() + " " );
       nextNode = nl.getNext(nextNode);
     } 
-    System.out.print( nextNode.getElement() + " " );
+    System.out.print( nextNode.getElement() + " ");
     System.out.println();
   }
+
+  public static void printDiagramNodeList(NodeList<DiagramNode<Integer>> nl) 
+  throws EmptyListException, InvalidNodeException, BoundaryException {
+    ListNode<DiagramNode<Integer>> nextListNode = nl.getFirst();
+    DiagramNode<Integer> nextNode = nextListNode.getElement();
+    if (nl.getNLSize() == 1) { 
+      System.out.print( "El: " + nextNode.getElement() + " " );
+      System.out.print( "Lev: " + nextNode.getLevel() + " " );
+      System.out.print( "Pos: " + nextNode.getPosition() + " " );
+    }
+    for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
+      System.out.print( "El: " + nextNode.getElement() + " " );
+      System.out.print( "Lev: " + nextNode.getLevel() + " " );
+      System.out.print( "Pos: " + nextNode.getPosition() + "   " );
+      nextListNode = nl.getNext(nextListNode);
+      nextNode = nextListNode.getElement();
+    }
+    System.out.print( "El: " + nextNode.getElement() + " " );
+    System.out.print( "Lev: " + nextNode.getLevel() + " " );
+    System.out.print( "Pos: " + nextNode.getPosition() + " " );
+    System.out.println(); 
+  }  
+
   
   public static void testRoutine1() // A TEST ROUTINE
   throws EmptyTreeException, TreeNotEmptyException,
@@ -615,7 +668,30 @@ public class BinaryTree<E> {
     System.out.print("BT70 list: ");
     printList(nListA); // Print list
 
+    NodeList<DiagramNode<Integer>> dn = bt70.getDiagramList();
+    int sz = dn.getNLSize();
+    System.out.println("DN Size: " + sz); //Should be 63 for full 6 levels
+    printDiagramNodeList(dn);
+
   }// End main
+
+
+ static class DiagramNode<E> { // Node type used only for tree diagram
+    private E element;
+    private int level;    // Root is level 1
+    private int position; // Define node's position on its level, left to right
+    public DiagramNode(E e, int l, int p) {
+      setElement(e);
+      setLevel(l);
+      setPosition(p);   
+    }
+    public E getElement() {return element;}       
+    public int getLevel() {return level;}
+    public int getPosition() {return position;}
+    public void setElement(E e) {element = e;}
+    public void setLevel(int i) {level = i;}
+    public void setPosition(int p) {position = p;}
+  }// End internal class DiagramNode<E>
 
 
   static class Node<E> {
@@ -719,10 +795,6 @@ public class BinaryTree<E> {
   }// End internal class NodeList<E>
 
 }// End class BinaryTree
-
-/*interface NodeListInterface<E> extends Iterable<E> {
-  public Iterator<E> iterator();
-}*/
 
 
 // Must keep Exception classes external: a generic class cannot 
