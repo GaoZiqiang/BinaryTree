@@ -109,7 +109,14 @@ public class BinaryTree<E> {
     NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
     if (btSize != 0) getSubtreeDiagramList(getRoot(), treeList, 1);
     return treeList;
-  }// Above method employs the one below  
+  }
+  public NodeList<Node<E>> getTreeDiagramListFromNode(Node<E> n) 
+  throws InvalidNodeException, EmptyTreeException, EmptyListException,
+  BoundaryException {
+    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
+    if (btSize != 0) getSubtreeDiagramList(n, treeList, 1);
+    return treeList;
+  }// Above two methods employs the one below  
   public void getSubtreeDiagramList(Node<E> n, NodeList<Node<E>> dl, 
   int pos) throws InvalidNodeException, EmptyTreeException {
     n.setPosition(pos);
@@ -163,7 +170,7 @@ public class BinaryTree<E> {
     return diagramList;    
   } */
   
-  
+  //////////////////////////////////////////////////////////////////////////
   ////NOT REQUIRED?????????????????????????????????????????????
   public NodeList<Node<E>> sortDiagramList(NodeList<Node<E>> nl) 
   throws EmptyListException, InvalidNodeException, BoundaryException {
@@ -198,7 +205,7 @@ public class BinaryTree<E> {
     int size5 = level5.getNLSize();
     int size6 = level6.getNLSize();
     
-    level5 = sortLevelList(level5);/////////////////////TEST//////////
+    //level5 = sortLevelList(level5);/////////////////////TEST//////////
   /* 
     ListNode<Node<E>> lnlev2 = level2.getFirst();
     Node<E> nlev2 = lnlev2.getElement();
@@ -211,7 +218,7 @@ public class BinaryTree<E> {
 
      return level5;///////////////////////////////TEMP TEST
     //return sorted;
-  }
+  } // end sortDiagramList
 
   public NodeList<Node<E>> sortLevelList(NodeList<Node<E>> nl)
   throws EmptyListException, InvalidNodeException, BoundaryException {
@@ -420,7 +427,6 @@ public class BinaryTree<E> {
   public static void printList(NodeList<Node<Integer>> nl) throws EmptyListException, 
   InvalidNodeException, BoundaryException {
     ListNode<Node<Integer>> nextNode = nl.getFirst();
-    if (nl.getNLSize() == 1) { System.out.print( nextNode.getElement().getElement() + " " ); };
     for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
       System.out.print( nextNode.getElement().getElement() + " " );
       nextNode = nl.getNext(nextNode);
@@ -429,11 +435,37 @@ public class BinaryTree<E> {
     System.out.println();
   }
 
+  // Version of above method with Genericized Nodes
+  public void printListE(NodeList<Node<E>> nl) throws EmptyListException, 
+  InvalidNodeException, BoundaryException {
+    ListNode<Node<E>> nextNode = nl.getFirst();
+    for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
+      System.out.print( nextNode.getElement().getElement() + " " );
+      nextNode = nl.getNext(nextNode);
+    } 
+    System.out.print( nextNode.getElement().getElement() + " " );
+    System.out.println();
+  }
+
+
   // Print the level property stored in each node
   public static void printList2(NodeList<Integer> nl) throws EmptyListException, 
   InvalidNodeException, BoundaryException {
     ListNode<Integer> nextNode = nl.getFirst();
-    if (nl.getNLSize() == 1) { System.out.print( nextNode.getElement() + " " ); };
+    //if (nl.getNLSize() == 1) { System.out.print( nextNode.getElement() + " " ); };
+    for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
+      System.out.print( nextNode.getElement() + " " );
+      nextNode = nl.getNext(nextNode);
+    } 
+    System.out.print( nextNode.getElement() + " ");
+    System.out.println();
+  }
+
+  // Print the level property stored in each node
+  public void printList2E(NodeList<E> nl) throws EmptyListException, 
+  InvalidNodeException, BoundaryException {
+    ListNode<E> nextNode = nl.getFirst();
+    //if (nl.getNLSize() == 1) { System.out.print( nextNode.getElement() + " " ); };
     for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
       System.out.print( nextNode.getElement() + " " );
       nextNode = nl.getNext(nextNode);
@@ -469,7 +501,7 @@ public class BinaryTree<E> {
     Node<E> rrl = rr.getLeft();
     Node<E> rrr = rr.getRight();
 
-    Node<E> llll = lll.getLeft();
+    Node<E> llll = lll.getLeft();////
     Node<E> lllr = lll.getRight();
     Node<E> llrl = llr.getLeft();
     Node<E> llrr = llr.getRight();
@@ -530,6 +562,306 @@ public class BinaryTree<E> {
     iterateDiagram(rrlr, 4, 2, 2);
     iterateDiagram(rrrl, 4, 2, 1);
     iterateDiagram(rrrr, 4, 2, 0);
+    System.out.println();
+  }
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+  public void printDiagramGenericized(BinaryTree<E> t, Node<E> n) throws
+  InvalidNodeException, EmptyTreeException, EmptyListException, EmptyListException,
+  BoundaryException  {
+    System.out.println("This diagram must be run on a full screen and is tidiest");
+    System.out.println("for trees with only single digit elements, e.g. as in");
+    System.out.println("common usage of holding binary digits 1, 0.");
+    System.out.println("Only shows top 6 levels"); // Consider enabling diagram      
+    NodeList<Node<E>> nl = t.getTreeDiagramListFromNode(n);
+    System.out.println("PRINTING NODELIST GENERATED IN PDG METHOD:");
+    t.printListE(nl);
+    int height = t.getBTHeight();    // for subtrees    
+    int level = n.getLevel(); 
+    int diagramHeight;
+    if ((height < 7) || (height - level < 5)) diagramHeight = height - level + 1;
+    else diagramHeight = 6;  // Max no. diagram levels 6  
+    NodeList<Node<E>> level1 = new NodeList<Node<E>>();
+    NodeList<Node<E>> level2 = new NodeList<Node<E>>();
+    NodeList<Node<E>> level3 = new NodeList<Node<E>>();
+    NodeList<Node<E>> level4 = new NodeList<Node<E>>();
+    NodeList<Node<E>> level5 = new NodeList<Node<E>>();
+    NodeList<Node<E>> level6 = new NodeList<Node<E>>();
+    int lev;
+    int size = nl.getNLSize();
+    ListNode<Node<E>> lndn = nl.getFirst(); // is root of printed tree (or subtree)
+    Node<E> dn;    
+    for (int i = 1; i < size; i++) {
+      lndn = nl.getNext(lndn);
+      dn = lndn.getElement();
+      lev = dn.getLevel() - level + 1;//e.g.root lev 10, next lev 11-10 + 1 =2       
+      switch (lev) {
+        case 2:  level2.addLast(dn);  break;
+        case 3:  level3.addLast(dn);  break;
+        case 4:  level4.addLast(dn);  break;
+        case 5:  level5.addLast(dn);  break;
+        case 6:  level6.addLast(dn);  break;
+      }
+    }// end for    
+       
+    for (int proxyLev = 1; proxyLev < diagramHeight + 1; proxyLev++) {        
+      switch (proxyLev) { 
+        case 1:  processRoot(n); break;
+        case 2:  processLevel2(level2); break;
+        case 3:  processLevel3(level3); break;
+        case 4:  processLevel4(level4); break;
+        case 5:  processLevel5(level5); break;
+        case 6:  processLevel6(level6); System.out.print("GENERICIZED"); break; 
+        default: ;  break;
+      } 
+    }// end for 
+
+      System.out.println();
+  } // end printDiagramGenericized
+
+  public void processRoot(Node<E> n) throws InvalidNodeException {
+    E e = n.getElement();
+    int pos = n.getPosition();
+    for (int i = 0; i < 64; i++) {
+      System.out.print(" ");
+    }
+    if (pos == 1) System.out.print(e);// i.e. if pos is not null
+    System.out.println();
+  }
+  
+  public void processLevel2(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 32; i++) {
+      System.out.print(" ");
+    }
+    if (pos == 1) System.out.print(e);
+    else {
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 32*(pos -1); i++) { // at lev 2, pos can be 1 or 2 only
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+   
+    for (int i = 1; i < size; i++) {
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition();      
+      for (int j = 0; j < 62; j++) { 
+        System.out.print(" ");
+      }
+      if (pos == 2) System.out.print(e);       
+    }// end for
+    System.out.println();
+  }
+
+  public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 16; i++) {
+        System.out.print(" ");
+      }
+    if (pos == 1) System.out.print(e);
+    else {
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 32*(pos -1); i++) { 
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+   
+    for (int i = 1; i < size; i++) {
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition();      
+      for (int j = 0; j < 30; j++) { 
+        System.out.print(" ");
+      }
+      if (pos == i + 1) System.out.print(e); 
+      else {
+        System.out.print(" "); // Space signifying no node
+        for (int k = 0; k < 30*(pos -1); k++) { 
+          System.out.print(" ");
+        }
+        System.out.print(e);
+      }// end else  
+    }// end for
+    System.out.println();
+  }
+
+  public void processLevel4(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 8; i++) {
+      System.out.print(" ");
+    }
+    if (pos == 1) System.out.print(e);
+    else {
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 14*(pos -1); i++) { 
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+   
+    for (int i = 1; i < size; i++) {
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition();  
+      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals    
+      for (int j = 0; j < 14; j++) { 
+        System.out.print(" ");
+      }
+      if (pos == i + 1) System.out.print(e); 
+      else {
+        System.out.print(" "); // Space signifying no node
+        for (int k = 0; k < 14*(pos -1); k++) { 
+          System.out.print(" ");
+        }
+        System.out.print(e);
+      }// end else  
+    }// end for
+    System.out.println(); 
+  }
+
+  public void processLevel5(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 4; i++) {
+      System.out.print(" ");
+    }
+    if (pos == 1) System.out.print(e);
+    else {
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 6*(pos -1); i++) { 
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+   
+    for (int i = 1; i < size; i++) {
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition();  
+      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
+      if (i%4 == 0) System.out.print(" ");  
+      for (int j = 0; j < 6; j++) { 
+        System.out.print(" ");
+      }
+      if (pos == i + 1) System.out.print(e); 
+      else {
+        System.out.print(" "); // Space signifying no node
+        for (int k = 0; k < 6*(pos -1); k++) { 
+          System.out.print(" ");
+        }
+        System.out.print(e);
+      }// end else  
+    }// end for
+    System.out.println();
+  }
+
+  public void processLevel6(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 2; i++) {
+      System.out.print(" ");
+    }
+    if (pos == 1) System.out.print(e);
+    else {
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 2*(pos -1); i++) { 
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+   
+    for (int i = 1; i < size; i++) {
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition();  
+      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
+      if (i%4 == 0) System.out.print(" "); 
+      if (i%8 == 0) System.out.print(" "); 
+      for (int j = 0; j < 2; j++) { 
+        System.out.print(" ");
+      }
+      if (pos == i + 1) System.out.print(e); 
+      else {
+        System.out.print(" "); // Space signifying no node
+        for (int k = 0; k < 2*(pos -1); k++) { 
+          System.out.print(" ");
+        }
+        System.out.print(e);
+      }// end else  
+    }// end for   
+
+    System.out.println();
+  }
+
+
+  public void printDiagramDemo2(BinaryTree<E> t) throws
+  InvalidNodeException, EmptyTreeException, EmptyListException {
+    System.out.println("This rough diagram must be run on a full screen");
+    System.out.println("and is tidiest for trees with only single digit elements");
+    System.out.println("e.g. as in common usage of holding binary digits 1,0");
+    System.out.println("Only shows top 6 levels"); // Consider enabling diagram
+    int height = getBTHeight(); // for subtrees
+    Node<E> root = getRoot();
+    Node<E> left = root.getLeft();
+    Node<E> right = root.getRight();
+
+    Node<E> ll = left.getLeft();
+    Node<E> lr = left.getRight();
+    Node<E> rl = right.getLeft();
+    Node<E> rr = right.getRight();
+
+    Integer el = (Integer) root.getElement();
+    for (int i = 0; i < 64; i++) {
+      System.out.print(" ");
+    }
+    System.out.println(el);
+
+    iterateDiagram(root, 64, 32, 0);
+    System.out.println();
+    iterateDiagram(left, 32, 16, 14);
+    iterateDiagram(right, 32, 16, 0);
+    System.out.println();
+
+    iterateDiagram(ll, 16, 8, 7);
+    iterateDiagram(lr, 16, 8, 7);////////////
+    iterateDiagram(rl, 16, 8, 7);
+    iterateDiagram(rr, 16, 8, 7);
     System.out.println();
   }
 
@@ -785,9 +1117,7 @@ public class BinaryTree<E> {
     bt110.setRoot(8);
     BinaryTree<Integer> bt111 = new BinaryTree<Integer>();
     bt111.setRoot(8);
-    //Integer lev = bt88.getRoot().getLevel();
-    //System.out.println("Level of BT88: " + lev);
-    System.out.println("       FINAL ATTACH ");
+    
     bt70.attachTrees(llll, bt80, bt81); // attach trees
     bt70.attachTrees(lllr, bt82, bt83); // attach trees
     bt70.attachTrees(llrl, bt84, bt85); // attach trees
@@ -804,10 +1134,12 @@ public class BinaryTree<E> {
     bt70.attachTrees(rrlr, bt106, bt107); // attach trees
     bt70.attachTrees(rrrl, bt108, bt109); // attach trees
     bt70.attachTrees(rrrr, bt110, bt111); // attach trees
+    System.out.println("MARKER 1");
+    //bt70.printDiagramDemo(bt70);
+    //System.out.println();
    
-    bt70.printDiagramDemo(bt70);
-    System.out.println();
-    
+    bt70.printDiagramGenericized(bt70, bt70.getRoot());
+   
     Node<Integer> lllll = llll.getRight();
     Integer l5El = lllll.getLevel();
     System.out.println("lllll level: " + l5El); 
@@ -819,6 +1151,9 @@ public class BinaryTree<E> {
     bt70.getSubtreeLevelsList(bt70.getRoot(), levelsList70);
     System.out.print("BT70 Levels Augmented: ");
     printList2(levelsList70);
+    System.out.println("MARKER REPEAT WITH NODE E: ");
+    System.out.print("BT70 Levels Augmented: ");
+    bt70.printList2E(levelsList70);
     
     NodeList<Node<Integer>> nListA = bt70.getTreeList(); // Get list
     System.out.print("BT70 list: ");
@@ -834,12 +1169,45 @@ public class BinaryTree<E> {
     System.out.print("BT70 list using Diagram method: ");
     printList(nListB); // Print list
     printDiagramNodeList(nListB);
-
+    System.out.println("MARKER 2");
     bt70.printTreeDiagram(bt70);
 
     NodeList<Node<Integer>> level5 = bt70.sortDiagramList(nListB);
-    printDiagramNodeList(level5);    
+    printDiagramNodeList(level5);  
+     
+   /*
+    bt70.removeNode(rCh);
+    nListB = bt70.getTreeDiagramList();
+    level5 = bt70.sortDiagramList(nListB);
+    printDiagramNodeList(level5);
+  */
+    BinaryTree<Integer> bt700 = new BinaryTree<Integer>();
+    bt700.setRoot(8);
+    Node<Integer> rt7 = bt700.getRoot();
+    Node<Integer> lCh7 = bt700.setLeft(rt7, 7);
+    Node<Integer> rCh7 = bt700.setRight(rt7, 6);
+    Node<Integer> llCh7 = bt700.setLeft(lCh7, 5);
+    Node<Integer> lrCh7 = bt700.setRight(lCh7, 4);
+    Node<Integer> rlCh7 = bt700.setLeft(rCh7, 3);
+    Node<Integer> rrCh7 = bt700.setRight(rCh7, 2);
+    bt700.printDiagramDemo2(bt700);
+  
+    int h700 =  bt700.getBTHeight();
+    System.out.println("BT700 Height: " + h700);
 
+    System.out.println("MARKER 21 MARKER 21 MARKER 21 MARKER 21 MARKER 21 ");
+    bt700.printDiagramGenericized(bt700, bt700.getRoot());
+    bt700.printDiagramGenericized(bt700, bt700.getRoot().getLeft());
+    bt700.printDiagramGenericized(bt700, bt700.getRoot().getLeft().getRight());
+  
+    bt700.removeNode(lrCh7);
+    nListB = bt700.getTreeDiagramList();
+    level5 = bt700.sortDiagramList(nListB); 
+
+    System.out.println("MARKER 3");  
+    bt700.printDiagramDemo2(bt700);
+    printDiagramNodeList(level5);
+   
   }// End main
 
 
