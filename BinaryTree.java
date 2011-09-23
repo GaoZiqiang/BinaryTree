@@ -361,9 +361,10 @@ public class BinaryTree<E> {
     System.out.println();
   }
 
-  public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  public void OLDprocessLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
     int size = nl.getNLSize();
+    int posAug = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
@@ -373,13 +374,15 @@ public class BinaryTree<E> {
       }
     if (pos == 1) System.out.print(e);
     else {
+      //posAug++;
       System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 32*(pos -1); i++) { 
+      for (int i = 0; i < 30*(pos -1); i++) { 
+      //for (int k = 0; k < 30; k++) {
         System.out.print(" ");
       }
       System.out.print(e);
     }   
-    for (int i = 1; i < size; i++) {
+    for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
@@ -387,10 +390,66 @@ public class BinaryTree<E> {
       for (int j = 0; j < 30; j++) { 
         System.out.print(" ");
       }
-      if (pos == i + 1) System.out.print(e); 
+      if (pos == i + 1 + posAug) System.out.print(e);  
       else {
+        posAug++;
         System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 30*(pos -1); k++) { 
+//      for (int k = 0; k < 30*(pos -1); k++) {
+        for (int k = 0; k < 30; k++) { 
+          System.out.print(" ");
+        }
+        System.out.print(e);
+      }// end else  
+    }// end for
+    System.out.println();
+  }
+
+  public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
+  EmptyListException, BoundaryException {
+    int size = nl.getNLSize();
+    int posDeficit = 0;
+    int posDefPrev = 0;
+    ListNode<Node<E>> ln = nl.getFirst();
+    Node<E> node = ln.getElement();
+    E e = node.getElement();
+    int pos = node.getPosition();
+    for (int i = 0; i < 16; i++) {
+      System.out.print(" ");
+    }
+    // process first node
+    if (pos == 1) {
+      System.out.print(e);
+      for (int i = 0; i < 30; i++) {
+        System.out.print(" ");
+      }
+    }
+    else {
+      posDeficit = pos -1;
+      System.out.print(" "); // Space signifying no node
+      for (int i = 0; i < 30*posDeficit; i++) { 
+      //for (int k = 0; k < 30; k++) {
+        System.out.print(" ");
+      }
+      System.out.print(e);
+    }
+    // process all nodes after first
+    for (int i = 1; i < size; i++) { 
+      ln = nl.getNext(ln);
+      node = ln.getElement();
+      e = node.getElement();
+      pos = node.getPosition(); 
+      if (pos == i + 1) {
+        System.out.print(e);   
+        for (int j = 0; j < 30; j++) { 
+          System.out.print(" ");
+        }
+      }
+      else { 
+        posDefPrev = posDeficit;
+        posDeficit = pos -i -1; 
+        if (posDeficit == posDefPrev) posDeficit = 1;      
+        System.out.print(" "); // Space signifying no node
+        for (int k = 0; k < 30*posDeficit +1; k++) { 
           System.out.print(" ");
         }
         System.out.print(e);
