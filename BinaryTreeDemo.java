@@ -233,7 +233,7 @@ public class BinaryTreeDemo {
     System.out.println("MARKER 1");
     //bt70.printDiagramDemo(bt70);
     //System.out.println();   
-    bt70.printDiagramGenericized(bt70, bt70.getRoot());
+    bt70.printDiagram(bt70, bt70.getRoot());
    
     Node<Integer> lllll = llll.getRight();
     Integer l5El = lllll.getLevel();
@@ -242,14 +242,11 @@ public class BinaryTreeDemo {
     System.out.println("BT70 Height: " + h70);      
     NodeList<Integer> levelsList70 = new NodeList<Integer>();
     bt70.getSubtreeLevelsList(bt70.getRoot(), levelsList70);
-    System.out.print("BT70 Levels Augmented: ");
-  BinaryTree.printList2(levelsList70);//////////////////// CHANGE TO NONSTATIC!
-    System.out.println("MARKER REPEAT WITH NODE E: ");
-    System.out.print("BT70 Levels Augmented: ");
-    bt70.printList2E(levelsList70);    
+    System.out.print("BT70 Levels Augmented: "); 
+    bt70.printLevelList(levelsList70);  
     NodeList<Node<Integer>> nListA = bt70.getTreeList();
     System.out.println("BT70 list from getTreeList using printList: ");
-  BinaryTree.printList(nListA); //////////////////////// CHANGE TO NONSTATIC!
+    bt70.printList(nListA);
     /*NodeList<Node<Integer>> dn = bt70.getDiagramList();
     int sz = dn.getNLSize();
     System.out.println("DN Size: " + sz); //Should be 63 for full 6 levels
@@ -257,9 +254,9 @@ public class BinaryTreeDemo {
     */
     NodeList<Node<Integer>> nListB = bt70.getTreeDiagramList(); 
     System.out.println("BT70 list from getTreeDiagramList using printList: ");
-  BinaryTree.printList(nListB); /////////////////////  CHANGE TO NONSTATIC!
+    bt70.printList(nListB); 
     System.out.println("BT70 list from gTDL using printDiagramNodeList method: ");
-  BinaryTree.printDiagramNodeList(nListB);  //////////// CHANGE TO NONSTATIC!    
+    bt70.printDiagramNodeListE(nListB);  
    /*
     bt70.removeNode(rCh);
     nListB = bt70.getTreeDiagramList();
@@ -276,17 +273,17 @@ public class BinaryTreeDemo {
     Node<Integer> rlCh7 = bt700.setLeft(rCh7, 3);
     Node<Integer> rrCh7 = bt700.setRight(rCh7, 2);
     System.out.println("MARKER 2");
-    bt700.printDiagramGenericized(bt700, bt700.getRoot());  
+    bt700.printDiagram(bt700, bt700.getRoot());  
     int h700 =  bt700.getBTHeight();
     System.out.println("BT700 Height: " + h700);
     System.out.println("MARKER X");
-    bt700.printDiagramGenericized(bt700, bt700.getRoot());
-    bt700.printDiagramGenericized(bt700, bt700.getRoot().getLeft());
-    bt700.printDiagramGenericized(bt700, bt700.getRoot().getLeft().getRight());  
+    bt700.printDiagram(bt700, bt700.getRoot());
+    bt700.printDiagram(bt700, bt700.getRoot().getLeft());
+    bt700.printDiagram(bt700, bt700.getRoot().getLeft().getRight());  
     //bt700.removeNode(lrCh7);
     //nListB = bt700.getTreeDiagramList();    
     System.out.println("MARKER 3");
-    bt700.printDiagramGenericized(bt700, bt700.getRoot()); 
+    bt700.printDiagram(bt700, bt700.getRoot()); 
   }// end testRoutine2
 
 
