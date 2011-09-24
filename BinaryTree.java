@@ -359,50 +359,7 @@ public class BinaryTree<E> {
       if (pos == 2) System.out.print(e);       
     }// end for
     System.out.println();
-  }
-
-  public void OLDprocessLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
-    int size = nl.getNLSize();
-    int posAug = 0;
-    ListNode<Node<E>> ln = nl.getFirst();
-    Node<E> node = ln.getElement();
-    E e = node.getElement();
-    int pos = node.getPosition();
-    for (int i = 0; i < 16; i++) {
-        System.out.print(" ");
-      }
-    if (pos == 1) System.out.print(e);
-    else {
-      //posAug++;
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 30*(pos -1); i++) { 
-      //for (int k = 0; k < 30; k++) {
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }   
-    for (int i = 1; i < size; i++) { 
-      ln = nl.getNext(ln);
-      node = ln.getElement();
-      e = node.getElement();
-      pos = node.getPosition();      
-      for (int j = 0; j < 30; j++) { 
-        System.out.print(" ");
-      }
-      if (pos == i + 1 + posAug) System.out.print(e);  
-      else {
-        posAug++;
-        System.out.print(" "); // Space signifying no node
-//      for (int k = 0; k < 30*(pos -1); k++) {
-        for (int k = 0; k < 30; k++) { 
-          System.out.print(" ");
-        }
-        System.out.print(e);
-      }// end else  
-    }// end for
-    System.out.println();
-  }
+  }//end processLevel2
 
   public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
@@ -427,7 +384,6 @@ public class BinaryTree<E> {
       posDeficit = pos -1;
       System.out.print(" "); // Space signifying no node
       for (int i = 0; i < 30*posDeficit; i++) { 
-      //for (int k = 0; k < 30; k++) {
         System.out.print(" ");
       }
       System.out.print(e);
@@ -456,11 +412,14 @@ public class BinaryTree<E> {
       }// end else  
     }// end for
     System.out.println();
-  }
+  }// end processLevel3
+
 
   public void processLevel4(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
     int size = nl.getNLSize();
+    int posDeficit = 0;
+    int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
@@ -468,38 +427,53 @@ public class BinaryTree<E> {
     for (int i = 0; i < 8; i++) {
       System.out.print(" ");
     }
-    if (pos == 1) System.out.print(e);
+    // process first node
+    if (pos == 1) {
+      System.out.print(e);
+      for (int i = 0; i < 14; i++) {
+        System.out.print(" ");
+      }
+    }
     else {
+      posDeficit = pos -1;
       System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 14*(pos -1); i++) { 
+      for (int i = 0; i < 14*posDeficit; i++) { 
         System.out.print(" ");
       }
       System.out.print(e);
-    }   
-    for (int i = 1; i < size; i++) {
+    }
+    // process all nodes after first
+    for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition();  
-      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals    
-      for (int j = 0; j < 14; j++) { 
-        System.out.print(" ");
+      pos = node.getPosition(); 
+      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
+      if (pos == i + 1) {
+        System.out.print(e);   
+        for (int j = 0; j < 14; j++) { 
+          System.out.print(" ");
+        }
       }
-      if (pos == i + 1) System.out.print(e); 
-      else {
+      else { 
+        posDefPrev = posDeficit;
+        posDeficit = pos -i -1; 
+        if (posDeficit == posDefPrev) posDeficit = 1;      
         System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 14*(pos -1); k++) { 
+        for (int k = 0; k < 13*posDeficit; k++) { 
           System.out.print(" ");
         }
         System.out.print(e);
       }// end else  
     }// end for
-    System.out.println(); 
-  }
+    System.out.println();
+  }// end processLevel4
 
   public void processLevel5(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
     int size = nl.getNLSize();
+    int posDeficit = 0;
+    int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
@@ -507,39 +481,59 @@ public class BinaryTree<E> {
     for (int i = 0; i < 4; i++) {
       System.out.print(" ");
     }
-    if (pos == 1) System.out.print(e);
+    // process first node
+    if (pos == 1) {
+      System.out.print(e);
+      for (int i = 0; i < 6; i++) {
+        System.out.print(" ");
+      }
+    }
     else {
+      posDeficit = pos -1;
       System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 6*(pos -1); i++) { 
+      for (int i = 0; i < 6*posDeficit; i++) { 
         System.out.print(" ");
       }
       System.out.print(e);
-    }   
-    for (int i = 1; i < size; i++) {
+    }
+    // process all nodes after first
+    for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition();  
-      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
-      if (i%4 == 0) System.out.print(" ");  
-      for (int j = 0; j < 6; j++) { 
-        System.out.print(" ");
+      pos = node.getPosition(); 
+      //NB REMOVE MODULO OPERATIONS TO IF LOOP
+      if (pos == i + 1) {
+        if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
+        if (i%4 == 0) System.out.print(" ");  
+        System.out.print(e);   
+        for (int j = 0; j < 6; j++) { 
+          System.out.print(" ");
+        }
       }
-      if (pos == i + 1) System.out.print(e); 
-      else {
+      else {             // Adjust even and odd spacings accordingly
+        if (i%2 == 0) System.out.print(" "); 
+        if (i%2 == 1) System.out.print("  "); 
+        if (i%4 == 0) System.out.print(" ");
+        //if (i%5 == 0) System.out.print(" "); 
+        posDefPrev = posDeficit;
+        posDeficit = pos -i -1; 
+        if (posDeficit == posDefPrev) posDeficit = 1;      
         System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 6*(pos -1); k++) { 
+        for (int k = 0; k < 4*posDeficit; k++) { 
           System.out.print(" ");
         }
         System.out.print(e);
       }// end else  
     }// end for
     System.out.println();
-  }
+  }// end processLevel5
 
   public void processLevel6(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
     int size = nl.getNLSize();
+    int posDeficit = 0;
+    int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
@@ -547,34 +541,47 @@ public class BinaryTree<E> {
     for (int i = 0; i < 2; i++) {
       System.out.print(" ");
     }
-    if (pos == 1) System.out.print(e);
+    // process first node
+    if (pos == 1) {
+      System.out.print(e);
+      for (int i = 0; i < 2; i++) {
+        System.out.print(" ");
+      }
+    }
     else {
+      posDeficit = pos -1;
       System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 2*(pos -1); i++) { 
+      for (int i = 0; i < 2*posDeficit; i++) { 
         System.out.print(" ");
       }
       System.out.print(e);
-    }   
-    for (int i = 1; i < size; i++) {
+    }
+    // process all nodes after first
+    for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition();  
+      pos = node.getPosition(); 
       if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
       if (i%4 == 0) System.out.print(" "); 
-      if (i%8 == 0) System.out.print(" "); 
-      for (int j = 0; j < 2; j++) { 
-        System.out.print(" ");
+      if (i%8 == 0) System.out.print(" ");
+      if (pos == i + 1) {
+        System.out.print(e);   
+        for (int j = 0; j < 2; j++) { 
+          System.out.print(" ");
+        }
       }
-      if (pos == i + 1) System.out.print(e); 
-      else {
+      else { 
+        posDefPrev = posDeficit;
+        posDeficit = pos -i -1; 
+        if (posDeficit == posDefPrev) posDeficit = 1;      
         System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 2*(pos -1); k++) { 
+        for (int k = 0; k < 2*posDeficit +1; k++) { 
           System.out.print(" ");
         }
         System.out.print(e);
       }// end else  
-    }// end for   
+    }// end for
     System.out.println();
   }// end processLevel6
 
