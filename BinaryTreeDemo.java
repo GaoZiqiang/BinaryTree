@@ -62,6 +62,172 @@ public class BinaryTreeDemo {
     printList2(levelsList);
   }// end testRoutine1
   */
+  
+  public static void removeLevel4NodesTest() // A TEST ROUTINE
+  throws EmptyTreeException, TreeNotEmptyException,
+  InvalidNodeException, BoundaryException, EmptyListException {
+    BinaryTree<Integer> bt2 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt3 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt4 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt5 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt6 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt7 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt8 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt9 = new BinaryTree<Integer>();
+    Node<Integer> root2 = bt2.setRoot(0);    
+    Node<Integer> root3 = bt3.setRoot(3);    
+    Node<Integer> root4 = bt4.setRoot(6);    
+    Node<Integer> root5 = bt5.setRoot(9);    
+    Node<Integer> root6 = bt6.setRoot(2);    
+    Node<Integer> root7 = bt7.setRoot(5);    
+    Node<Integer> root8 = bt8.setRoot(8);    
+    Node<Integer> root9 = bt9.setRoot(1);
+      
+    BinaryTree<Integer> bt70 = new BinaryTree<Integer>();
+    bt70.setRoot(8);
+    Node<Integer> rt = bt70.getRoot();
+    Node<Integer> lCh = bt70.setLeft(rt, 7);
+    Node<Integer> rCh = bt70.setRight(rt, 6);
+    Node<Integer> llCh = bt70.setLeft(lCh, 5);
+    Node<Integer> lrCh = bt70.setRight(lCh, 4);
+    Node<Integer> rlCh = bt70.setLeft(rCh, 3);
+    Node<Integer> rrCh = bt70.setRight(rCh, 2);
+    System.out.println();    
+   // NB ATTACHING SAME TREES MORE THAN ONCE CAN CAUSE AN ANOMALY, NAMELY 
+   // INVALIDNODEeXCEPTION, TRYING TO ATTACH TREES TO "INTERNAL NODES", IF
+   // SUBSEQUENT TREES LATER ATTEMPT ATTACHMENT BELOW   
+    bt70.attachTrees(llCh, bt2, bt3); // Attach trees VALID POINTERS
+    bt70.attachTrees(lrCh, bt4, bt5); 
+    bt70.attachTrees(rlCh, bt6, bt7); 
+    bt70.attachTrees(rrCh, bt8, bt9); 
+ 
+    Node<Integer> lll = llCh.getLeft();
+    Node<Integer> llr = llCh.getRight();
+    Node<Integer> lrl = lrCh.getLeft();
+    Node<Integer> lrr = lrCh.getRight();
+    Node<Integer> rll = rlCh.getLeft();
+    Node<Integer> rlr = rlCh.getRight();
+    Node<Integer> rrl = rrCh.getLeft();
+    Node<Integer> rrr = rrCh.getRight();
+   
+    Node<Integer> llll = lll.getLeft();
+    Node<Integer> lllr = lll.getRight();
+    Node<Integer> llrl = llr.getLeft();
+    Node<Integer> llrr = llr.getRight();
+    Node<Integer> lrll = lrl.getLeft();
+    Node<Integer> lrlr = lrl.getRight();
+    Node<Integer> lrrl = lrr.getLeft();
+    Node<Integer> lrrr = lrr.getRight();
+    Node<Integer> rlll = rll.getLeft();
+    Node<Integer> rllr = rll.getRight();
+    Node<Integer> rlrl = rlr.getLeft();
+    Node<Integer> rlrr = rlr.getRight();
+    Node<Integer> rrll = rrl.getLeft();
+    Node<Integer> rrlr = rrl.getRight();
+    Node<Integer> rrrl = rrr.getLeft();
+    Node<Integer> rrrr = rrr.getRight();  
+   
+    System.out.println("removeLevel4 NodesTest");
+    System.out.println();    
+    bt70.printDiagram(bt70, bt70.getRoot());
+    System.out.println("MARKER 2");
+    bt70.removeNode(lll); // remove node 
+    bt70.printDiagram(bt70, bt70.getRoot());
+
+  }// end removeLevel4NodesTest
+
+
+
+
+  public static void removeLevel5NodesTest() // A TEST ROUTINE
+  throws EmptyTreeException, TreeNotEmptyException,
+  InvalidNodeException, BoundaryException, EmptyListException {
+    BinaryTree<Integer> bt2 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt3 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt4 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt5 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt6 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt7 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt8 = new BinaryTree<Integer>();
+    BinaryTree<Integer> bt9 = new BinaryTree<Integer>();
+    Node<Integer> root2 = bt2.setRoot(0);
+    bt2.setLeft(root2, 1);
+    bt2.setRight(root2, 2);
+    Node<Integer> root3 = bt3.setRoot(3);
+    bt3.setLeft(root3, 4);
+    bt3.setRight(root3, 5);
+    Node<Integer> root4 = bt4.setRoot(6);
+    bt4.setLeft(root4, 7);
+    bt4.setRight(root4, 8);
+    Node<Integer> root5 = bt5.setRoot(9);
+    bt5.setLeft(root5, 0);
+    bt5.setRight(root5, 1);
+    Node<Integer> root6 = bt6.setRoot(2);
+    bt6.setLeft(root6, 3);
+    bt6.setRight(root6, 4);
+    Node<Integer> root7 = bt7.setRoot(5);
+    bt7.setLeft(root7, 6);
+    bt7.setRight(root7, 7);
+    Node<Integer> root8 = bt8.setRoot(8);
+    bt8.setLeft(root8, 9);
+    bt8.setRight(root8, 0);
+    Node<Integer> root9 = bt9.setRoot(1);
+    bt9.setLeft(root9, 2);
+    bt9.setRight(root9, 3);
+  
+    BinaryTree<Integer> bt70 = new BinaryTree<Integer>();
+    bt70.setRoot(8);
+    Node<Integer> rt = bt70.getRoot();
+    Node<Integer> lCh = bt70.setLeft(rt, 7);
+    Node<Integer> rCh = bt70.setRight(rt, 6);
+    Node<Integer> llCh = bt70.setLeft(lCh, 5);
+    Node<Integer> lrCh = bt70.setRight(lCh, 4);
+    Node<Integer> rlCh = bt70.setLeft(rCh, 3);
+    Node<Integer> rrCh = bt70.setRight(rCh, 2);
+    System.out.println();    
+   // NB ATTACHING SAME TREES MORE THAN ONCE CAN CAUSE AN ANOMALY, NAMELY 
+   // INVALIDNODEeXCEPTION, TRYING TO ATTACH TREES TO "INTERNAL NODES", IF
+   // SUBSEQUENT TREES LATER ATTEMPT ATTACHMENT BELOW   
+    bt70.attachTrees(llCh, bt2, bt3); // Attach trees VALID POINTERS
+    bt70.attachTrees(lrCh, bt4, bt5); 
+    bt70.attachTrees(rlCh, bt6, bt7); 
+    bt70.attachTrees(rrCh, bt8, bt9); 
+ 
+    Node<Integer> lll = llCh.getLeft();
+    Node<Integer> llr = llCh.getRight();
+    Node<Integer> lrl = lrCh.getLeft();
+    Node<Integer> lrr = lrCh.getRight();
+    Node<Integer> rll = rlCh.getLeft();
+    Node<Integer> rlr = rlCh.getRight();
+    Node<Integer> rrl = rrCh.getLeft();
+    Node<Integer> rrr = rrCh.getRight();
+   
+    Node<Integer> llll = lll.getLeft();
+    Node<Integer> lllr = lll.getRight();
+    Node<Integer> llrl = llr.getLeft();
+    Node<Integer> llrr = llr.getRight();
+    Node<Integer> lrll = lrl.getLeft();
+    Node<Integer> lrlr = lrl.getRight();
+    Node<Integer> lrrl = lrr.getLeft();
+    Node<Integer> lrrr = lrr.getRight();
+    Node<Integer> rlll = rll.getLeft();
+    Node<Integer> rllr = rll.getRight();
+    Node<Integer> rlrl = rlr.getLeft();
+    Node<Integer> rlrr = rlr.getRight();
+    Node<Integer> rrll = rrl.getLeft();
+    Node<Integer> rrlr = rrl.getRight();
+    Node<Integer> rrrl = rrr.getLeft();
+    Node<Integer> rrrr = rrr.getRight(); 
+    System.out.println("removeLevel5 NodesTest");
+    System.out.println();      
+    bt70.printDiagram(bt70, bt70.getRoot());
+    System.out.println("MARKER 1");
+    bt70.removeNode(llll); // remove node 
+    bt70.printDiagram(bt70, bt70.getRoot());
+
+  }// end removeLevel5NodesTest
+
+
 
   public static void testRoutine2() // A TEST ROUTINE
   throws EmptyTreeException, TreeNotEmptyException,
@@ -81,23 +247,23 @@ public class BinaryTreeDemo {
     bt3.setLeft(root3, 4);
     bt3.setRight(root3, 5);
     Node<Integer> root4 = bt4.setRoot(6);
-    bt2.setLeft(root4, 7);
-    bt2.setRight(root4, 8);
+    bt4.setLeft(root4, 7);
+    bt4.setRight(root4, 8);
     Node<Integer> root5 = bt5.setRoot(9);
-    bt3.setLeft(root5, 0);
-    bt3.setRight(root5, 1);
+    bt5.setLeft(root5, 0);
+    bt5.setRight(root5, 1);
     Node<Integer> root6 = bt6.setRoot(2);
-    bt2.setLeft(root6, 3);
-    bt2.setRight(root6, 4);
+    bt6.setLeft(root6, 3);
+    bt6.setRight(root6, 4);
     Node<Integer> root7 = bt7.setRoot(5);
-    bt3.setLeft(root7, 6);
-    bt3.setRight(root7, 7);
+    bt7.setLeft(root7, 6);
+    bt7.setRight(root7, 7);
     Node<Integer> root8 = bt8.setRoot(8);
-    bt2.setLeft(root8, 9);
-    bt2.setRight(root8, 0);
+    bt8.setLeft(root8, 9);
+    bt8.setRight(root8, 0);
     Node<Integer> root9 = bt9.setRoot(1);
-    bt3.setLeft(root9, 2);
-    bt3.setRight(root9, 3);
+    bt9.setLeft(root9, 2);
+    bt9.setRight(root9, 3);
   
     BinaryTree<Integer> bt70 = new BinaryTree<Integer>();
     bt70.setRoot(8);
@@ -229,10 +395,9 @@ public class BinaryTreeDemo {
     bt70.attachTrees(rrll, bt104, bt105); 
     bt70.attachTrees(rrlr, bt106, bt107); 
     bt70.attachTrees(rrrl, bt108, bt109); 
-    bt70.attachTrees(rrrr, bt110, bt111); 
+    bt70.attachTrees(rrrr, bt110, bt111);  
     System.out.println("MARKER 1");
-    //bt70.printDiagramDemo(bt70);
-    //System.out.println();   
+      
     bt70.printDiagram(bt70, bt70.getRoot());
    
     Node<Integer> lllll = llll.getRight();
@@ -280,10 +445,13 @@ public class BinaryTreeDemo {
     bt700.printDiagram(bt700, bt700.getRoot());
     bt700.printDiagram(bt700, bt700.getRoot().getLeft());
     bt700.printDiagram(bt700, bt700.getRoot().getLeft().getRight());  
-    //bt700.removeNode(lrCh7);
     //nListB = bt700.getTreeDiagramList();    
     System.out.println("MARKER 3");
     bt700.printDiagram(bt700, bt700.getRoot()); 
+    bt700.removeNode(lrCh7); // remove node 4
+    bt700.printDiagram(bt700, bt700.getRoot());
+    bt700.removeNode(llCh7); // remove node 5
+    bt700.printDiagram(bt700, bt700.getRoot());
   }// end testRoutine2
 
 
@@ -293,5 +461,7 @@ public class BinaryTreeDemo {
   throws EmptyTreeException, TreeNotEmptyException,
   InvalidNodeException, BoundaryException, EmptyListException {
     testRoutine2();
+    removeLevel4NodesTest();
+    removeLevel5NodesTest();
   }// End main
 }
