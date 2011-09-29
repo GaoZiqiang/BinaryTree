@@ -92,11 +92,8 @@ public class BinaryTreeDemo {
     Node<Integer> lrCh = bt70.setRight(lCh, 4);
     Node<Integer> rlCh = bt70.setLeft(rCh, 3);
     Node<Integer> rrCh = bt70.setRight(rCh, 2);
-    System.out.println();    
-   // NB ATTACHING SAME TREES MORE THAN ONCE CAN CAUSE AN ANOMALY, NAMELY 
-   // INVALIDNODEeXCEPTION, TRYING TO ATTACH TREES TO "INTERNAL NODES", IF
-   // SUBSEQUENT TREES LATER ATTEMPT ATTACHMENT BELOW   
-    bt70.attachTrees(llCh, bt2, bt3); // Attach trees VALID POINTERS
+    System.out.println();   
+    bt70.attachTrees(llCh, bt2, bt3); 
     bt70.attachTrees(lrCh, bt4, bt5); 
     bt70.attachTrees(rlCh, bt6, bt7); 
     bt70.attachTrees(rrCh, bt8, bt9); 
@@ -188,11 +185,8 @@ public class BinaryTreeDemo {
     Node<Integer> lrCh = bt70.setRight(lCh, 4);
     Node<Integer> rlCh = bt70.setLeft(rCh, 3);
     Node<Integer> rrCh = bt70.setRight(rCh, 2);
-    System.out.println();    
-   // NB ATTACHING SAME TREES MORE THAN ONCE CAN CAUSE AN ANOMALY, NAMELY 
-   // INVALIDNODEeXCEPTION, TRYING TO ATTACH TREES TO "INTERNAL NODES", IF
-   // SUBSEQUENT TREES LATER ATTEMPT ATTACHMENT BELOW   
-    bt70.attachTrees(llCh, bt2, bt3); // Attach trees VALID POINTERS
+    System.out.println();        
+    bt70.attachTrees(llCh, bt2, bt3); 
     bt70.attachTrees(lrCh, bt4, bt5); 
     bt70.attachTrees(rlCh, bt6, bt7); 
     bt70.attachTrees(rrCh, bt8, bt9); 
@@ -230,9 +224,17 @@ public class BinaryTreeDemo {
     bt70.printDiagram(bt70, bt70.getRoot());
     bt70.removeNode(lllr); // remove 2nd node 
     bt70.printDiagram(bt70, bt70.getRoot());
-    bt70.removeNode(rrrl); // remove 2nd to last node 
+    bt70.removeNode(rlll); // remove 9th node 
     bt70.printDiagram(bt70, bt70.getRoot());
-    
+    System.out.println("REMOVE SEVERAL INTERNAL NODES:");
+    bt70.removeNode(rll); // remove 5th node in 4th level 
+    bt70.printDiagram(bt70, bt70.getRoot()); 
+    //bt70.removeNode(rlCh); // remove 3rd node in 3rd level //////////////////////
+    //bt70.printDiagram(bt70, bt70.getRoot());    
+    System.out.println("Using getTreeDiagramListFromNode method:");
+    NodeList<Node<Integer>> noli = bt70.getTreeDiagramListFromNode(bt70.getRoot());
+    bt70.printList(noli);
+
   }// end removeLevel5NodesTest
 
 
@@ -408,7 +410,7 @@ public class BinaryTreeDemo {
       
     bt70.printDiagram(bt70, bt70.getRoot());
    
-    Node<Integer> lllll = llll.getRight();
+/*    Node<Integer> lllll = llll.getRight();
     Integer l5El = lllll.getLevel();
     System.out.println("lllll level: " + l5El); 
     int h70 =  bt70.getBTHeight();
@@ -424,18 +426,18 @@ public class BinaryTreeDemo {
     int sz = dn.getNLSize();
     System.out.println("DN Size: " + sz); //Should be 63 for full 6 levels
     printDiagramNodeList(dn);
-    */
-    NodeList<Node<Integer>> nListB = bt70.getTreeDiagramList(); 
-    System.out.println("BT70 list from getTreeDiagramList using printList: ");
-    bt70.printList(nListB); 
-    System.out.println("BT70 list from gTDL using printDiagramNodeList method: ");
-    bt70.printDiagramNodeListE(nListB);  
-   /*
-    bt70.removeNode(rCh);
-    nListB = bt70.getTreeDiagramList();
-    level5 = bt70.sortDiagramList(nListB);
-    printDiagramNodeList(level5);
-  */
+    
+   // NodeList<Node<Integer>> nListB = bt70.getTreeDiagramList(); 
+   // System.out.println("BT70 list from getTreeDiagramList using printList: ");
+   // bt70.printList(nListB); 
+   // System.out.println("BT70 list from gTDL using printDiagramNodeList method: ");
+   // bt70.printDiagramNodeListE(nListB);  
+   
+   // bt70.removeNode(rCh);
+   // nListB = bt70.getTreeDiagramList();
+   // level5 = bt70.sortDiagramList(nListB);
+   // printDiagramNodeList(level5);
+  
     BinaryTree<Integer> bt700 = new BinaryTree<Integer>();
     bt700.setRoot(8);
     Node<Integer> rt7 = bt700.getRoot();
@@ -460,6 +462,7 @@ public class BinaryTreeDemo {
     bt700.printDiagram(bt700, bt700.getRoot());
     bt700.removeNode(llCh7); // remove node 5
     bt700.printDiagram(bt700, bt700.getRoot());
+*/
   }// end testRoutine2
 
 
@@ -469,7 +472,7 @@ public class BinaryTreeDemo {
   throws EmptyTreeException, TreeNotEmptyException,
   InvalidNodeException, BoundaryException, EmptyListException {
     testRoutine2();
-    removeLevel4NodesTest();
+    //removeLevel4NodesTest();
     removeLevel5NodesTest();
   }// End main
 }
