@@ -304,6 +304,7 @@ public class BinaryTree<E> {
         case 4:  level4.addLast(dn);  break;
         case 5:  level5.addLast(dn);  break;
         case 6:  level6.addLast(dn);  break;
+        default: ;  break;
       }
     }// end for           
     for (int proxyLev = 1; proxyLev < diagramHeight + 1; proxyLev++) {        
@@ -322,268 +323,300 @@ public class BinaryTree<E> {
 
   public void processRoot(Node<E> n) throws InvalidNodeException {
     E e = n.getElement();
-    int pos = n.getPosition();
-    for (int i = 0; i < 64; i++) {
-      System.out.print(" ");
+    int pos = n.getPosition();    
+    if (pos == 1) { // i.e. if pos is not null
+      printSpaces(79);
+      System.out.print(e);
+      System.out.println();
     }
-    if (pos == 1) System.out.print(e);// i.e. if pos is not null
-    System.out.println();
-  }
-  
+  }// end processRoot
+
   public void processLevel2(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
+    int tally = 0;
     int size = nl.getNLSize();
+    if (size == 0) return;
+    int posDeficit = 0;
+    int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
-    int pos = node.getPosition();
-    for (int i = 0; i < 32; i++) {
-      System.out.print(" ");
-    }
-    if (pos == 1) System.out.print(e);
-    else {
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 32*(pos -1); i++) { // at lev 2, pos can be 1 or 2 only
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }   
-    for (int i = 1; i < size; i++) {
+    int pos = node.getPosition();     
+    // process first node
+    if (pos == 1) tally += printSpaces(39); 
+    else tally += printSpaces(119 - tally);
+    System.out.print(e);
+    tally++;
+    // process second node if exists
+    if (size == 2) {
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition();      
-      for (int j = 0; j < 62; j++) { 
-        System.out.print(" ");
+      pos = node.getPosition(); 
+      if (pos == 2) {
+        tally += printSpaces(119 - tally);
+        System.out.print(e);
       }
-      if (pos == 2) System.out.print(e);       
-    }// end for
-    System.out.println();
-  }//end processLevel2
+    }
+    System.out.println();    
+  }// end processLevel2
 
   public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
+    int tally = 0;
     int size = nl.getNLSize();
+    if (size == 0) return;
     int posDeficit = 0;
     int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-    for (int i = 0; i < 16; i++) {
-      System.out.print(" ");
-    }
+     
     // process first node
-    if (pos == 1) {
-      System.out.print(e);
-      for (int i = 0; i < 30; i++) {
-        System.out.print(" ");
-      }
+    switch (pos) {
+      case 1:  tally += printSpaces(19);  break;
+      case 2:  tally += printSpaces(59 - tally);  break;
+      case 3:  tally += printSpaces(99 - tally);  break;
+      case 4:  tally += printSpaces(139 - tally);  break;
+      default: ;  break;
     }
-    else {
-      posDeficit = pos -1;
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 30*posDeficit; i++) { 
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }
+    System.out.print(e);
+    tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      if (pos == i + 1) {
-        System.out.print(e);   
-        for (int j = 0; j < 30; j++) { 
-          System.out.print(" ");
-        }
-      }
-      else { 
-        posDefPrev = posDeficit;
-        posDeficit = pos -i -1; 
-        if (posDeficit == posDefPrev) posDeficit = 1;      
-        System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 30*posDeficit +1; k++) { 
-          System.out.print(" ");
-        }
-        System.out.print(e);
-      }// end else  
+      switch (pos) {
+        case 2:  tally += printSpaces(59 - tally);  break;
+        case 3:  tally += printSpaces(99 - tally);  break;
+        case 4:  tally += printSpaces(139 - tally);  break;
+        default: ;  break;
+      }  
+      System.out.print(e);
+      tally++;
     }// end for
-    System.out.println();
+    System.out.println();    
   }// end processLevel3
-
 
   public void processLevel4(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
+    int tally = 0;
     int size = nl.getNLSize();
+    if (size == 0) return;
     int posDeficit = 0;
     int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-    for (int i = 0; i < 8; i++) {
-      System.out.print(" ");
-    }
+     
     // process first node
-    if (pos == 1) {
-      System.out.print(e);
-      for (int i = 0; i < 14; i++) {
-        System.out.print(" ");
-      }
+    switch (pos) {
+      case 1:  tally += printSpaces(9);  break;//8
+      case 2:  tally += printSpaces(29 - tally);  break;
+      case 3:  tally += printSpaces(49 - tally);  break;
+      case 4:  tally += printSpaces(69 - tally);  break;
+      case 5:  tally += printSpaces(89 - tally);  break;
+      case 6:  tally += printSpaces(109 - tally);  break;
+      case 7:  tally += printSpaces(129 - tally);  break;
+      case 8:  tally += printSpaces(149 - tally);  break;
+      default: ;  break;
     }
-    else {
-      posDeficit = pos -1;
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 14*posDeficit; i++) { 
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }
+    System.out.print(e);
+    tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition(); 
-      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
-      if (pos == i + 1) {
-        System.out.print(e);   
-        for (int j = 0; j < 14; j++) { 
-          System.out.print(" ");
-        }
-      }
-      else { 
-        posDefPrev = posDeficit;
-        posDeficit = pos -i -1; 
-        if (posDeficit == posDefPrev) posDeficit = 1;      
-        System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 13*posDeficit; k++) { 
-          System.out.print(" ");
-        }
-        System.out.print(e);
-      }// end else  
+      pos = node.getPosition();
+      switch (pos) {
+        case 2:  tally += printSpaces(29 - tally);  break;
+        case 3:  tally += printSpaces(49 - tally);  break;
+        case 4:  tally += printSpaces(69 - tally);  break;
+        case 5:  tally += printSpaces(89 - tally);  break;
+        case 6:  tally += printSpaces(109 - tally);  break;
+        case 7:  tally += printSpaces(129 - tally);  break;
+        case 8:  tally += printSpaces(149 - tally);  break;
+        default: ;  break;
+      }  
+      System.out.print(e);
+      tally++;
     }// end for
-    System.out.println();
+    System.out.println();    
   }// end processLevel4
 
   public void processLevel5(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
+    int tally = 0;
     int size = nl.getNLSize();
+    if (size == 0) return;
     int posDeficit = 0;
     int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-    for (int i = 0; i < 4; i++) {
-      System.out.print(" ");
-    }
+     
     // process first node
-    if (pos == 1) {
-      System.out.print(e);
-      for (int i = 0; i < 6; i++) {
-        System.out.print(" ");
-      }
+    switch (pos) {      
+      case 1:  tally += printSpaces(4);  break;
+      case 2:  tally += printSpaces(14 - tally);  break;
+      case 3:  tally += printSpaces(24 - tally);  break;
+      case 4:  tally += printSpaces(34 - tally);  break;
+      case 5:  tally += printSpaces(44 - tally);  break;
+      case 6:  tally += printSpaces(54 - tally);  break;
+      case 7:  tally += printSpaces(64 - tally);  break;
+      case 8:  tally += printSpaces(74 - tally);  break;
+      case 9:  tally += printSpaces(84 - tally);  break;
+      case 10:  tally += printSpaces(94 - tally);  break;
+      case 11:  tally += printSpaces(104 - tally);  break;
+      case 12:  tally += printSpaces(114 - tally);  break;
+      case 13:  tally += printSpaces(124 - tally);  break;
+      case 14:  tally += printSpaces(134 - tally);  break;
+      case 15:  tally += printSpaces(144 - tally);  break;
+      case 16:  tally += printSpaces(154 - tally);  break;
+      default: ;  break;
     }
-    else {
-      posDeficit = pos -1;
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 6*posDeficit; i++) { 
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }
+    System.out.print(e);
+    tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      //NB REMOVE MODULO OPERATIONS TO IF LOOP
-      if (pos == i + 1) {
-        if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
-        if (i%4 == 0) System.out.print(" ");  
-        System.out.print(e);   
-        for (int j = 0; j < 6; j++) { 
-          System.out.print(" ");
-        }
-      }
-      else {             // Adjust even and odd spacings accordingly
-        if (i%2 == 0) System.out.print(" "); 
-        if (i%2 == 1) System.out.print("  "); 
-        if (i%4 == 0) System.out.print(" ");
-        //if (i%5 == 0) System.out.print(" "); 
-        posDefPrev = posDeficit;
-        posDeficit = pos -i -1; 
-        if (posDeficit == posDefPrev) posDeficit = 1;      
-        System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 4*posDeficit; k++) { 
-          System.out.print(" ");
-        }
-        System.out.print(e);
-      }// end else  
+      switch (pos) {
+        case 2:  tally += printSpaces(14 - tally);  break;
+        case 3:  tally += printSpaces(24 - tally);  break;
+        case 4:  tally += printSpaces(34 - tally);  break;
+        case 5:  tally += printSpaces(44 - tally);  break;
+        case 6:  tally += printSpaces(54 - tally);  break;
+        case 7:  tally += printSpaces(64 - tally);  break;
+        case 8:  tally += printSpaces(74 - tally);  break;
+        case 9:  tally += printSpaces(84 - tally);  break;
+        case 10:  tally += printSpaces(94 - tally);  break;
+        case 11:  tally += printSpaces(104 - tally);  break;
+        case 12:  tally += printSpaces(114 - tally);  break;
+        case 13:  tally += printSpaces(124 - tally);  break;
+        case 14:  tally += printSpaces(134 - tally);  break;
+        case 15:  tally += printSpaces(144 - tally);  break;
+        case 16:  tally += printSpaces(154 - tally);  break;
+        default: ;  break;
+      }  
+      System.out.print(e);
+      tally++;
     }// end for
-    System.out.println();
+    System.out.println();    
   }// end processLevel5
 
   public void processLevel6(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
+    int tally = 0;
     int size = nl.getNLSize();
+    if (size == 0) return;
     int posDeficit = 0;
     int posDefPrev = 0;
     ListNode<Node<E>> ln = nl.getFirst();
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-    for (int i = 0; i < 2; i++) {
-      System.out.print(" ");
-    }
+     
     // process first node
-    if (pos == 1) {
-      System.out.print(e);
-      for (int i = 0; i < 2; i++) {
-        System.out.print(" ");
-      }
+    switch (pos) {      
+      case 1:  tally += printSpaces(2);  break;
+      case 2:  tally += printSpaces(6 - tally);  break; //6
+      case 3:  tally += printSpaces(12 - tally);  break;//10
+      case 4:  tally += printSpaces(16 - tally);  break;//14
+      case 5:  tally += printSpaces(22 - tally);  break;//18
+      case 6:  tally += printSpaces(26 - tally);  break;//22
+      case 7:  tally += printSpaces(32 - tally);  break;//26
+      case 8:  tally += printSpaces(36 - tally);  break;//30
+      case 9:  tally += printSpaces(42 - tally);  break;//34
+      case 10:  tally += printSpaces(46 - tally);  break;//38
+      case 11:  tally += printSpaces(52 - tally);  break;//42
+      case 12:  tally += printSpaces(56 - tally);  break;//46
+      case 13:  tally += printSpaces(62 - tally);  break;//50
+      case 14:  tally += printSpaces(66 - tally);  break;//54
+      case 15:  tally += printSpaces(72 - tally);  break;//58
+      case 16:  tally += printSpaces(76 - tally);  break;//62
+      case 17:  tally += printSpaces(82 - tally);  break;//66
+      case 18:  tally += printSpaces(86 - tally);  break;//70
+      case 19:  tally += printSpaces(92 - tally);  break;//74
+      case 20:  tally += printSpaces(96 - tally);  break;//78
+      case 21:  tally += printSpaces(102 - tally);  break;//82
+      case 22:  tally += printSpaces(106 - tally);  break;//86
+      case 23:  tally += printSpaces(112 - tally);  break;//90
+      case 24:  tally += printSpaces(116 - tally);  break;//94
+      case 25:  tally += printSpaces(122 - tally);  break;//98
+      case 26:  tally += printSpaces(126 - tally);  break;//102
+      case 27:  tally += printSpaces(132 - tally);  break;//106
+      case 28:  tally += printSpaces(136 - tally);  break;//110
+      case 29:  tally += printSpaces(142 - tally);  break;//114
+      case 30:  tally += printSpaces(146 - tally);  break;//118
+      case 31:  tally += printSpaces(152 - tally);  break;//122
+      case 32:  tally += printSpaces(156 - tally);  break;//126
+      default: ;  break;
     }
-    else {
-      posDeficit = pos -1;
-      System.out.print(" "); // Space signifying no node
-      for (int i = 0; i < 2*posDeficit; i++) { 
-        System.out.print(" ");
-      }
-      System.out.print(e);
-    }
+    System.out.print(e);
+    tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      if (i%2 == 0) System.out.print(" "); // Extra space for even intervals
-      if (i%4 == 0) System.out.print(" "); 
-      if (i%8 == 0) System.out.print(" ");
-      if (pos == i + 1) {
-        System.out.print(e);   
-        for (int j = 0; j < 2; j++) { 
-          System.out.print(" ");
-        }
-      }
-      else { 
-        posDefPrev = posDeficit;
-        posDeficit = pos -i -1; 
-        if (posDeficit == posDefPrev) posDeficit = 1;      
-        System.out.print(" "); // Space signifying no node
-        for (int k = 0; k < 2*posDeficit +1; k++) { 
-          System.out.print(" ");
-        }
-        System.out.print(e);
-      }// end else  
+      switch (pos) {
+        case 2:  tally += printSpaces(6 - tally);  break;
+        case 3:  tally += printSpaces(12 - tally);  break;
+        case 4:  tally += printSpaces(16 - tally);  break;
+        case 5:  tally += printSpaces(22 - tally);  break;
+        case 6:  tally += printSpaces(26 - tally);  break;
+        case 7:  tally += printSpaces(32 - tally);  break;
+        case 8:  tally += printSpaces(36 - tally);  break;
+        case 9:  tally += printSpaces(42 - tally);  break;
+        case 10:  tally += printSpaces(46 - tally);  break;
+        case 11:  tally += printSpaces(52 - tally);  break;
+        case 12:  tally += printSpaces(56 - tally);  break;
+        case 13:  tally += printSpaces(62 - tally);  break;
+        case 14:  tally += printSpaces(66 - tally);  break;
+        case 15:  tally += printSpaces(72 - tally);  break;
+        case 16:  tally += printSpaces(76 - tally);  break;
+        case 17:  tally += printSpaces(82 - tally);  break;
+        case 18:  tally += printSpaces(86 - tally);  break;
+        case 19:  tally += printSpaces(92 - tally);  break;
+        case 20:  tally += printSpaces(96 - tally);  break;
+        case 21:  tally += printSpaces(102 - tally);  break;
+        case 22:  tally += printSpaces(106 - tally);  break;
+        case 23:  tally += printSpaces(112 - tally);  break;
+        case 24:  tally += printSpaces(116 - tally);  break;
+        case 25:  tally += printSpaces(122 - tally);  break;
+        case 26:  tally += printSpaces(126 - tally);  break;
+        case 27:  tally += printSpaces(132 - tally);  break;
+        case 28:  tally += printSpaces(136 - tally);  break;
+        case 29:  tally += printSpaces(142 - tally);  break;
+        case 30:  tally += printSpaces(146 - tally);  break;
+        case 31:  tally += printSpaces(152 - tally);  break;
+        case 32:  tally += printSpaces(156 - tally);  break;
+        default: ;  break;
+      }  
+      System.out.print(e);
+      tally++;
     }// end for
-    System.out.println();
+    System.out.println();    
   }// end processLevel6
+
+  public int printSpaces(int number){
+    int t = 0;
+    for (int j = 0; j < number; j++) { 
+      System.out.print(" ");
+      t++;
+    }
+    return t;
+  }// end printSpaces
 
   public void printDiagramNodeListE(NodeList<Node<E>> nl) 
   throws EmptyListException, InvalidNodeException, BoundaryException {
