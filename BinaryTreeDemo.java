@@ -131,7 +131,11 @@ public class BinaryTreeDemo {
     System.out.println();    
     bt70.printDiagram(bt70, bt70.getRoot());
     System.out.println("MARKER 2");
-    bt70.removeNode(lll); // remove node 
+    bt70.removeNode(lll); // remove 1st node in 4th level 
+    bt70.printDiagram(bt70, bt70.getRoot());
+    bt70.removeNode(lrl); // remove 3rd node 
+    bt70.printDiagram(bt70, bt70.getRoot());
+    bt70.removeNode(rrl); // remove 2nd to last node 
     bt70.printDiagram(bt70, bt70.getRoot());
 
   }// end removeLevel4NodesTest
@@ -222,9 +226,13 @@ public class BinaryTreeDemo {
     System.out.println();      
     bt70.printDiagram(bt70, bt70.getRoot());
     System.out.println("MARKER 1");
-    bt70.removeNode(llll); // remove node 
+    bt70.removeNode(llll); // remove 1st node in 5th level 
     bt70.printDiagram(bt70, bt70.getRoot());
-
+    bt70.removeNode(lllr); // remove 2nd node 
+    bt70.printDiagram(bt70, bt70.getRoot());
+    bt70.removeNode(rrrl); // remove 2nd to last node 
+    bt70.printDiagram(bt70, bt70.getRoot());
+    
   }// end removeLevel5NodesTest
 
 
