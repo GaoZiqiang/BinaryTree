@@ -172,6 +172,12 @@ public class BinaryTree<E> {
     return r;
   }
 
+  public E replaceElement(Node<E> n, E e) throws InvalidNodeException {
+    E oldElement = n.getElement();
+    n.setElement(e);
+    return oldElement;
+  }
+
   //Remove a node, replace it with its one child, two children causes error
   // and return element stored at the removed node
   //NEED TO POSSIBLY DECREMENT BTHEIGHT!
@@ -201,15 +207,13 @@ public class BinaryTree<E> {
     Node<E> child;
     if (l != null) child = l;
     else if (r != null) child = r;
-    else child = null;  // Node to be removed is external
-    ///////////////////////////  
+    else child = null;  // Node to be removed is external    
     if (child != null) { 
       child.setPosition(posn);
       child.setLevel(lev);
       //System.out.println("CHILD POSN; " + child.getPosition());
       //System.out.println("CHILD LEVEL; " + child.getLevel());
     }
-    //////////////////////////
     if (n == root) {  // Node to be removed is the root
       if (child != null) child.setParent(null);
       root = child; 
@@ -218,25 +222,23 @@ public class BinaryTree<E> {
       Node<E> p = n.getParent();
       if (n == p.getLeft()) p.setLeft(child); // N.B set to null if node is external
       else p.setRight(child);  // N.B set to null if node to be removed is external
-      if (child != null) child.setParent(p); // Node removed was internal
+      if (child != null) { // Node removed was internal
+        child.setParent(p);
+        //decDescendentLevels(n);
+      } 
     }
     btSize--;
     return n.getElement();
-  }
+  }// end removeNode
 
-  public E replaceElement(Node<E> n, E e) throws InvalidNodeException {
-    E oldElement = n.getElement();
-    n.setElement(e);
-    return oldElement;
-  }
-/*  // Recursive method to decrement all levels in subtree below subtree root
-  public void decrementDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
+  // Recursive method to increment all levels in subtree below subtree root
+  public void decDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
     int parentLevel = rootSub.getParent().getLevel();
     rootSub.setLevel(parentLevel - 1);
-    if (hasLeft(rootSub)) this.decrementDescendentLevels(rootSub.getLeft()); 
-    if (hasRight(rootSub)) this.decrementDescendentLevels(rootSub.getRight());
+    if (hasLeft(rootSub)) this.decDescendentLevels(rootSub.getLeft()); 
+    if (hasRight(rootSub)) this.decDescendentLevels(rootSub.getRight()); 
   }
-*/  
+ 
   // Recursive method to increment all levels in subtree below subtree root
   public void setDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
     int parentLevel = rootSub.getParent().getLevel();
@@ -244,6 +246,7 @@ public class BinaryTree<E> {
     if (hasLeft(rootSub)) this.setDescendentLevels(rootSub.getLeft()); 
     if (hasRight(rootSub)) this.setDescendentLevels(rootSub.getRight()); 
   } 
+
   // Attach two trees as subtrees of an external node
   // i.e. the roots of these trees become children of the node
   public void attachTrees(Node<E> n, BinaryTree<E> TLeft, BinaryTree<E> TRight) 
@@ -271,7 +274,7 @@ public class BinaryTree<E> {
       rightTreeRoot.setLevel(attachmentNodeLevel);
       setDescendentLevels(rightTreeRoot);
     }       
-  }
+  }// end attachTrees
 
   // Print the elements stored in each node
   public void printList(NodeList<Node<E>> nl) throws EmptyListException, 
@@ -300,6 +303,46 @@ public class BinaryTree<E> {
     System.out.println();
   }
 
+  public BinaryTree<Integer> createPopulatedIntegerTree(Integer[][] a) 
+  throws EmptyTreeException, TreeNotEmptyException,
+  InvalidNodeException, BoundaryException, EmptyListException {
+    BinaryTree<Integer> t = new BinaryTree<Integer>();
+    t.setBTHeight(a.length);
+    Node<Integer> root = t.setRoot(a[0][0]);
+    Node<Integer> parent = null;
+    Node<Integer> currentNode = null;
+    ListNode<Node<Integer>> ln = null;
+    NodeList<Node<Integer>> parentList = new NodeList<Node<Integer>>();
+    NodeList<Node<Integer>> levelList = null;
+    parentList.addLast(root);
+    int level, parentListSize, levelListSize;
+    for (int i = 1; i < a.length; i++) { // process levels 2 onward
+      level = i + 1;
+      levelList = new NodeList<Node<Integer>>();
+      parentListSize = parentList.getNLSize();
+      levelListSize = a[i].length;
+      for (int j = 0; j < levelListSize; j++) {
+        if (j % 2 == 0) { // get one new parent for each consequetive node pair
+          if (j == 0) ln = parentList.getFirst(); else ln = parentList.getNext(ln);
+          parent = ln.getElement();
+          currentNode = t.setLeft(parent, a[i][j]);
+          currentNode.setPosition( j +1 );
+          currentNode.setLevel( level );
+          levelList.addLast( currentNode );
+        }// end if
+        else {
+          currentNode = t.setRight(parent, a[i][j]);
+          currentNode.setPosition( j +1 );
+          currentNode.setLevel( level );
+          levelList.addLast( currentNode );
+        }// end else
+      }// end inner for
+    parentList = levelList; //levelList becomes parent for next inner loop
+    }// end outer for    
+    return t;
+  }// end createPopulatedIntegerTree
+
+
   // Prints a diagram of tree, or subtree, including non-complete trees.
   // Requires a full screen, and is tidiest for trees with only single digit 
   // elements, e.g. as in common usage of holding binary digits 1, 0.
@@ -310,7 +353,7 @@ public class BinaryTree<E> {
     System.out.println("This diagram is for full screen run only");
     System.out.println("Only displays the top 6 levels of tree or subtree");      
     NodeList<Node<E>> nl = t.getTreeDiagramListFromNode(n);
-    t.printList(nl);
+    //t.printList(nl);
     int height = t.getBTHeight();    
     int level = n.getLevel(); 
     int diagramHeight;
@@ -351,7 +394,7 @@ public class BinaryTree<E> {
       } 
     }
     System.out.println();
-  } // end printDiagramGenericized
+  }// end printDiagram
 
   public void processRoot(Node<E> n) throws InvalidNodeException {
     E e = n.getElement();
@@ -377,7 +420,7 @@ public class BinaryTree<E> {
     // process first node
     if (pos == 1) tally += printSpaces(39); 
     else tally += printSpaces(119 - tally);
-    System.out.print(e);
+    if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process second node if exists
     if (size == 2) {
@@ -387,7 +430,7 @@ public class BinaryTree<E> {
       pos = node.getPosition(); 
       if (pos == 2) {
         tally += printSpaces(119 - tally);
-        System.out.print(e);
+        if (e != null) System.out.print(e); else System.out.print(" ");
       }
     }
     System.out.println();    
@@ -413,7 +456,7 @@ public class BinaryTree<E> {
       case 4:  tally += printSpaces(139 - tally);  break;
       default: ;  break;
     }
-    System.out.print(e);
+    if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
@@ -427,7 +470,7 @@ public class BinaryTree<E> {
         case 4:  tally += printSpaces(139 - tally);  break;
         default: ;  break;
       }  
-      System.out.print(e);
+      if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
     System.out.println();    
@@ -457,7 +500,7 @@ public class BinaryTree<E> {
       case 8:  tally += printSpaces(149 - tally);  break;
       default: ;  break;
     }
-    System.out.print(e);
+    if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
@@ -475,7 +518,7 @@ public class BinaryTree<E> {
         case 8:  tally += printSpaces(149 - tally);  break;
         default: ;  break;
       }  
-      System.out.print(e);
+      if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
     System.out.println();    
@@ -513,7 +556,7 @@ public class BinaryTree<E> {
       case 16:  tally += printSpaces(154 - tally);  break;
       default: ;  break;
     }
-    System.out.print(e);
+    if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
@@ -539,7 +582,7 @@ public class BinaryTree<E> {
         case 16:  tally += printSpaces(154 - tally);  break;
         default: ;  break;
       }  
-      System.out.print(e);
+      if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
     System.out.println();    
@@ -593,7 +636,7 @@ public class BinaryTree<E> {
       case 32:  tally += printSpaces(156 - tally);  break;//126
       default: ;  break;
     }
-    System.out.print(e);
+    if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
     for (int i = 1; i < size; i++) { 
@@ -635,7 +678,7 @@ public class BinaryTree<E> {
         case 32:  tally += printSpaces(156 - tally);  break;
         default: ;  break;
       }  
-      System.out.print(e);
+      if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
     System.out.println();    
