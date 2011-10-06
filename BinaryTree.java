@@ -436,7 +436,7 @@ public class BinaryTree<E> {
     System.out.println();    
   }// end processLevel2
 
-  public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
+    public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
   EmptyListException, BoundaryException {
     int tally = 0;
     int size = nl.getNLSize();
@@ -447,29 +447,17 @@ public class BinaryTree<E> {
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-     
     // process first node
-    switch (pos) {
-      case 1:  tally += printSpaces(19);  break;
-      case 2:  tally += printSpaces(59 - tally);  break;
-      case 3:  tally += printSpaces(99 - tally);  break;
-      case 4:  tally += printSpaces(139 - tally);  break;
-      default: ;  break;
-    }
+    tally = iterateSpaces(tally, pos, 19, 5, 40, 40);
     if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
-    // process all nodes after first
+    // process all nodes after first    
     for (int i = 1; i < size; i++) { 
       ln = nl.getNext(ln);
       node = ln.getElement();
       e = node.getElement();
-      pos = node.getPosition(); 
-      switch (pos) {
-        case 2:  tally += printSpaces(59 - tally);  break;
-        case 3:  tally += printSpaces(99 - tally);  break;
-        case 4:  tally += printSpaces(139 - tally);  break;
-        default: ;  break;
-      }  
+      pos = node.getPosition();
+      tally = iterateSpaces(tally, pos, 19, 5, 40, 40);
       if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
@@ -487,19 +475,8 @@ public class BinaryTree<E> {
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-     
     // process first node
-    switch (pos) {
-      case 1:  tally += printSpaces(9);  break;//8
-      case 2:  tally += printSpaces(29 - tally);  break;
-      case 3:  tally += printSpaces(49 - tally);  break;
-      case 4:  tally += printSpaces(69 - tally);  break;
-      case 5:  tally += printSpaces(89 - tally);  break;
-      case 6:  tally += printSpaces(109 - tally);  break;
-      case 7:  tally += printSpaces(129 - tally);  break;
-      case 8:  tally += printSpaces(149 - tally);  break;
-      default: ;  break;
-    }
+    tally = iterateSpaces(tally, pos, 9, 9, 20, 20);
     if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
@@ -508,16 +485,7 @@ public class BinaryTree<E> {
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition();
-      switch (pos) {
-        case 2:  tally += printSpaces(29 - tally);  break;
-        case 3:  tally += printSpaces(49 - tally);  break;
-        case 4:  tally += printSpaces(69 - tally);  break;
-        case 5:  tally += printSpaces(89 - tally);  break;
-        case 6:  tally += printSpaces(109 - tally);  break;
-        case 7:  tally += printSpaces(129 - tally);  break;
-        case 8:  tally += printSpaces(149 - tally);  break;
-        default: ;  break;
-      }  
+      tally = iterateSpaces(tally, pos, 9, 9, 20, 20);
       if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
@@ -535,27 +503,8 @@ public class BinaryTree<E> {
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-     
     // process first node
-    switch (pos) {      
-      case 1:  tally += printSpaces(4);  break;
-      case 2:  tally += printSpaces(14 - tally);  break;
-      case 3:  tally += printSpaces(24 - tally);  break;
-      case 4:  tally += printSpaces(34 - tally);  break;
-      case 5:  tally += printSpaces(44 - tally);  break;
-      case 6:  tally += printSpaces(54 - tally);  break;
-      case 7:  tally += printSpaces(64 - tally);  break;
-      case 8:  tally += printSpaces(74 - tally);  break;
-      case 9:  tally += printSpaces(84 - tally);  break;
-      case 10:  tally += printSpaces(94 - tally);  break;
-      case 11:  tally += printSpaces(104 - tally);  break;
-      case 12:  tally += printSpaces(114 - tally);  break;
-      case 13:  tally += printSpaces(124 - tally);  break;
-      case 14:  tally += printSpaces(134 - tally);  break;
-      case 15:  tally += printSpaces(144 - tally);  break;
-      case 16:  tally += printSpaces(154 - tally);  break;
-      default: ;  break;
-    }
+    tally = iterateSpaces(tally, pos, 4, 17, 10, 10);
     if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
@@ -564,24 +513,7 @@ public class BinaryTree<E> {
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      switch (pos) {
-        case 2:  tally += printSpaces(14 - tally);  break;
-        case 3:  tally += printSpaces(24 - tally);  break;
-        case 4:  tally += printSpaces(34 - tally);  break;
-        case 5:  tally += printSpaces(44 - tally);  break;
-        case 6:  tally += printSpaces(54 - tally);  break;
-        case 7:  tally += printSpaces(64 - tally);  break;
-        case 8:  tally += printSpaces(74 - tally);  break;
-        case 9:  tally += printSpaces(84 - tally);  break;
-        case 10:  tally += printSpaces(94 - tally);  break;
-        case 11:  tally += printSpaces(104 - tally);  break;
-        case 12:  tally += printSpaces(114 - tally);  break;
-        case 13:  tally += printSpaces(124 - tally);  break;
-        case 14:  tally += printSpaces(134 - tally);  break;
-        case 15:  tally += printSpaces(144 - tally);  break;
-        case 16:  tally += printSpaces(154 - tally);  break;
-        default: ;  break;
-      }  
+      tally = iterateSpaces(tally, pos, 4, 17, 10, 10);
       if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
@@ -599,43 +531,8 @@ public class BinaryTree<E> {
     Node<E> node = ln.getElement();
     E e = node.getElement();
     int pos = node.getPosition();
-     
     // process first node
-    switch (pos) {      
-      case 1:  tally += printSpaces(2);  break;
-      case 2:  tally += printSpaces(6 - tally);  break; //6
-      case 3:  tally += printSpaces(12 - tally);  break;//10
-      case 4:  tally += printSpaces(16 - tally);  break;//14
-      case 5:  tally += printSpaces(22 - tally);  break;//18
-      case 6:  tally += printSpaces(26 - tally);  break;//22
-      case 7:  tally += printSpaces(32 - tally);  break;//26
-      case 8:  tally += printSpaces(36 - tally);  break;//30
-      case 9:  tally += printSpaces(42 - tally);  break;//34
-      case 10:  tally += printSpaces(46 - tally);  break;//38
-      case 11:  tally += printSpaces(52 - tally);  break;//42
-      case 12:  tally += printSpaces(56 - tally);  break;//46
-      case 13:  tally += printSpaces(62 - tally);  break;//50
-      case 14:  tally += printSpaces(66 - tally);  break;//54
-      case 15:  tally += printSpaces(72 - tally);  break;//58
-      case 16:  tally += printSpaces(76 - tally);  break;//62
-      case 17:  tally += printSpaces(82 - tally);  break;//66
-      case 18:  tally += printSpaces(86 - tally);  break;//70
-      case 19:  tally += printSpaces(92 - tally);  break;//74
-      case 20:  tally += printSpaces(96 - tally);  break;//78
-      case 21:  tally += printSpaces(102 - tally);  break;//82
-      case 22:  tally += printSpaces(106 - tally);  break;//86
-      case 23:  tally += printSpaces(112 - tally);  break;//90
-      case 24:  tally += printSpaces(116 - tally);  break;//94
-      case 25:  tally += printSpaces(122 - tally);  break;//98
-      case 26:  tally += printSpaces(126 - tally);  break;//102
-      case 27:  tally += printSpaces(132 - tally);  break;//106
-      case 28:  tally += printSpaces(136 - tally);  break;//110
-      case 29:  tally += printSpaces(142 - tally);  break;//114
-      case 30:  tally += printSpaces(146 - tally);  break;//118
-      case 31:  tally += printSpaces(152 - tally);  break;//122
-      case 32:  tally += printSpaces(156 - tally);  break;//126
-      default: ;  break;
-    }
+    tally = iterateSpaces(tally, pos, 2, 33, 6, 4);
     if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
@@ -644,40 +541,7 @@ public class BinaryTree<E> {
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      switch (pos) {
-        case 2:  tally += printSpaces(6 - tally);  break;
-        case 3:  tally += printSpaces(12 - tally);  break;
-        case 4:  tally += printSpaces(16 - tally);  break;
-        case 5:  tally += printSpaces(22 - tally);  break;
-        case 6:  tally += printSpaces(26 - tally);  break;
-        case 7:  tally += printSpaces(32 - tally);  break;
-        case 8:  tally += printSpaces(36 - tally);  break;
-        case 9:  tally += printSpaces(42 - tally);  break;
-        case 10:  tally += printSpaces(46 - tally);  break;
-        case 11:  tally += printSpaces(52 - tally);  break;
-        case 12:  tally += printSpaces(56 - tally);  break;
-        case 13:  tally += printSpaces(62 - tally);  break;
-        case 14:  tally += printSpaces(66 - tally);  break;
-        case 15:  tally += printSpaces(72 - tally);  break;
-        case 16:  tally += printSpaces(76 - tally);  break;
-        case 17:  tally += printSpaces(82 - tally);  break;
-        case 18:  tally += printSpaces(86 - tally);  break;
-        case 19:  tally += printSpaces(92 - tally);  break;
-        case 20:  tally += printSpaces(96 - tally);  break;
-        case 21:  tally += printSpaces(102 - tally);  break;
-        case 22:  tally += printSpaces(106 - tally);  break;
-        case 23:  tally += printSpaces(112 - tally);  break;
-        case 24:  tally += printSpaces(116 - tally);  break;
-        case 25:  tally += printSpaces(122 - tally);  break;
-        case 26:  tally += printSpaces(126 - tally);  break;
-        case 27:  tally += printSpaces(132 - tally);  break;
-        case 28:  tally += printSpaces(136 - tally);  break;
-        case 29:  tally += printSpaces(142 - tally);  break;
-        case 30:  tally += printSpaces(146 - tally);  break;
-        case 31:  tally += printSpaces(152 - tally);  break;
-        case 32:  tally += printSpaces(156 - tally);  break;
-        default: ;  break;
-      }  
+      tally = iterateSpaces(tally, pos, 2, 33, 6, 4);
       if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
@@ -692,6 +556,15 @@ public class BinaryTree<E> {
     }
     return t;
   }// end printSpaces
+  
+  public int iterateSpaces(int tally, int pos, int init, int upto, int even, int odd){
+    int spaces = init;
+      for (int j = 1; j < upto; j++) {
+        if (pos == j) tally += printSpaces(spaces - tally);
+        if (j%2 == 0) spaces += even; else spaces += odd;
+      }
+    return tally;
+  }
 
   public void printDiagramNodeListE(NodeList<Node<E>> nl) 
   throws EmptyListException, InvalidNodeException, BoundaryException {
