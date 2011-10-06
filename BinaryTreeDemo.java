@@ -99,7 +99,55 @@ public class BinaryTreeDemo {
     System.out.println();
     System.out.println("TREE WITH 6 LEVELS:");
     pop = pop.createPopulatedIntegerTree(e);
+    pop.printDiagram(pop, pop.getRoot());
+    System.out.println("DEMONSTRATE MORE EXTENSIVE NODE REMOVAL AND PROMOTION:");
+    rt = pop.getRoot();
+    lCh = rt.getLeft();    
+    llCh = lCh.getLeft();    
+    lll = llCh.getLeft();
+    llr = llCh.getRight();       
+    llll = lll.getLeft();
+    lllr = lll.getRight();
+    llrl = llr.getLeft();
+    llrr = llr.getRight();    
+    Node<Integer> lllll = llll.getLeft();
+    Node<Integer> llllr = llll.getRight();
+    Node<Integer> lllrl = lllr.getLeft();
+    Node<Integer> lllrr = lllr.getRight();
+    Node<Integer> llrll = llrl.getLeft();
+    Node<Integer> llrlr = llrl.getRight();
+    Node<Integer> llrrl = llrr.getLeft();
+    Node<Integer> llrrr = llrr.getRight(); 
+    pop.removeNode(lllll); // remove 1st node in 6th level 
     pop.printDiagram(pop, pop.getRoot()); 
+    pop.removeNode(llll); // remove 1st node in 5th level 
+    pop.printDiagram(pop, pop.getRoot());
+    pop.removeNode(llllr); // remove 1st node in 5th level (promoted from 6th level)
+    pop.printDiagram(pop, pop.getRoot()); 
+    pop.removeNode(lllrl);
+    pop.removeNode(lllrr); // remove 3rd and 4th nodes in 6th level
+    pop.removeNode(lllr); // remove 2nd mode in 5th level
+    pop.printDiagram(pop, pop.getRoot()); 
+    pop.removeNode(lll); // remove 1st node in 4th level
+    pop.printDiagram(pop, pop.getRoot());
+    pop.removeNode(llCh); // remove 1st node in 3rd level
+    System.out.println("NOTE NODES PROMOTED THROUGH 3 LAYERS");
+    pop.printDiagram(pop, pop.getRoot());
+    // remove all descendent nodes below 1st node 2nd level 
+    pop.removeNode(llrll); pop.removeNode(llrlr); pop.removeNode(llrrl);
+    pop.removeNode(llrrr); pop.removeNode(llrl);  pop.removeNode(llrr);    
+    pop.removeNode(llr); 
+    pop.printDiagram(pop, pop.getRoot());
+    pop.removeNode(lCh); // remove 1st node in 2nd level
+    System.out.println("NODES NOW PROMOTED THROUGH 4 LAYERS");
+    pop.printDiagram(pop, pop.getRoot());   
+   
+    rCh = rt.getRight();
+    pop.removeSubtree(rCh); // remove subtree from 2nd node in 2nd level
+    System.out.println("DELETE ENTIRE RIGHT OF TREE BY REMOVESUBTREE:");
+    pop.printDiagram(pop, pop.getRoot());
+
+   //TO DO: METHOD TO DELETE ALL DESCENDENTS BUT NOT ENTERED NODE////////// 
   }// end level5NodesTest
 
 
