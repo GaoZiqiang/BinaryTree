@@ -94,7 +94,7 @@ public class BinaryTreeDemo {
     bt70.printList(noli);
     BinaryTree<Integer> pop = new BinaryTree<Integer>();
     Integer[] c = {8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3};
-    Integer[] d = {8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,8,9,0,1,2,3,4,5,6,7,8,9,0,1,null,3};   
+    Integer[] d = {8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3};   
     Integer[][] e = { {1},{2,3},{4,5,6,7}, {8,9,0,1,2,3,4,5}, c, d };
     System.out.println();
     System.out.println("TREE WITH 6 LEVELS:");
