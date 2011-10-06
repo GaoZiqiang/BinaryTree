@@ -178,24 +178,12 @@ public class BinaryTree<E> {
     return oldElement;
   }
 
-  //Remove a node, replace it with its one child, two children causes error
-  // and return element stored at the removed node
   //NEED TO POSSIBLY DECREMENT BTHEIGHT!
-
-  //NEED TO ENSURE THAT SUBTREE OF PROMOTED CHILD IS GIVEN POSITION AND LEVEL OF 
-  //PARENT AND THAT ANY OF ITS DESCENDENTS ARE NOT INCLUDED IN THE DIAGRAM 
-  //BECAUSE OF IMPOSSIBILITY OF INCORPORATING THIS IN DIAGRAM FOR SOME CASES
-  //THEREFORE INDICATE THAT THIS PART OF TREE MUST BE PRINTED SEPARATELY,
-  //BY USING PRINTDIAGRAM WITH THIS NODE AS INPUT
-  //INDICATE SUCH A CASE WITH "S"FOLLOWING ITS VALUE E.G. "4S".
-  //ALSO ADD A METHOD TO DELETE ENTIRE SUBTREE BY DELETING ITS NODES RECURSIVELY
-  //USING THIS METHOD
-
-  //SETdESCENDENTLEVELS NOT HAVING EFFECT IN THIS METHOD????
-  //DO NOT NEED, SEE ABOVE, WILL NOT PRINT ITS DESCENDENTS, BUT THEN MUST AMEND
-  //PRINTDIAGRAM METHOD TO ALLOW FOR CASE WHERE SUBTREE IS PRINTED WHERE ROOT IS
-  //TWO LEVELS ABOVE ITS CHILDREN BECAUSE OF PROPOTION OF ROOT'S LEVEL IN THIS
-  //METHOD
+  //Remove a node, replace it with its one child if it exists, and return 
+  //element stored at the removed node. All descendents of child also promoted.
+  //Attempt to remove node with two children causes an error.
+  //Note all promotions may be incorporated in updated diagram as a mathematical 
+  //consequence of never removing nodes with 2 children.
   public E removeNode(Node<E> n) throws InvalidNodeException,
   BoundaryException {
     Node<E> l = getLeft(n);
@@ -211,33 +199,23 @@ public class BinaryTree<E> {
     if (child != null) { 
       child.setPosition(posn);
       child.setLevel(lev);
-      //System.out.println("CHILD POSN; " + child.getPosition());
-      //System.out.println("CHILD LEVEL; " + child.getLevel());
     }
     if (n == root) {  // Node to be removed is the root
       if (child != null) child.setParent(null);
       root = child; 
     } 
-    else {  // Node to be removed is not the root
+    else {  // Node to be removed is not the root      
       Node<E> p = n.getParent();
       if (n == p.getLeft()) p.setLeft(child); // N.B set to null if node is external
       else p.setRight(child);  // N.B set to null if node to be removed is external
       if (child != null) { // Node removed was internal
-        child.setParent(p);
-        //decDescendentLevels(n);
+        child.setParent(p); 
+        setDescendentLevels(n);       
       } 
     }
     btSize--;
     return n.getElement();
   }// end removeNode
-
-  // Recursive method to increment all levels in subtree below subtree root
-  public void decDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
-    int parentLevel = rootSub.getParent().getLevel();
-    rootSub.setLevel(parentLevel - 1);
-    if (hasLeft(rootSub)) this.decDescendentLevels(rootSub.getLeft()); 
-    if (hasRight(rootSub)) this.decDescendentLevels(rootSub.getRight()); 
-  }
  
   // Recursive method to increment all levels in subtree below subtree root
   public void setDescendentLevels(Node<E> rootSub) throws InvalidNodeException {
@@ -246,6 +224,24 @@ public class BinaryTree<E> {
     if (hasLeft(rootSub)) this.setDescendentLevels(rootSub.getLeft()); 
     if (hasRight(rootSub)) this.setDescendentLevels(rootSub.getRight()); 
   } 
+ 
+  ////////////////////////////////////////////////////////////////////////
+  //Remove entire subtree defined at the node entered as parameter from the
+  //tree to which it belongs. Subtree may vary from a single external node
+  //to the entire tree: in latter case the tree will be disestablished
+  public void removeSubtree(Node<E> n) throws InvalidNodeException,
+  BoundaryException {
+    Node<E> l = getLeft(n);
+    Node<E> r = getRight(n);
+    if (l != null) l.setParent(null);
+    if (r != null) r.setParent(null);
+    if (n != root) {  // Subtree root is not the root of entire tree      
+      Node<E> p = n.getParent(); // So its parent will become an external node
+      if (n == p.getLeft()) p.setLeft(null); else p.setRight(null);       
+    }
+    //btSize--;//NEED TO FIND WAY TO ADJUST btSize//////////////////////////    
+  }// end removeSubtree
+  
 
   // Attach two trees as subtrees of an external node
   // i.e. the roots of these trees become children of the node
@@ -294,7 +290,6 @@ public class BinaryTree<E> {
   public void printLevelList(NodeList<E> nl) throws EmptyListException, 
   InvalidNodeException, BoundaryException {
     ListNode<E> nextNode = nl.getFirst();
-    //if (nl.getNLSize() == 1) { System.out.print( nextNode.getElement() + " " ); };
     for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
       System.out.print( nextNode.getElement() + " " );
       nextNode = nl.getNext(nextNode);
