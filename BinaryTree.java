@@ -78,61 +78,13 @@ public class BinaryTree<E> {
     if (hasRight(n)) childList.addLast(n.getRight().getElement()); // Recursive
     return childList;
   }  
-  
-  // Below areauxiliary methods for listing tree node properties, including 
-  // for non-complete trees and subtrees. All lists may be printed out using
-  // other methods, and some are used by the printDiagram method. 
-  public NodeList<Node<E>> getTreeList() 
-  throws InvalidNodeException, EmptyTreeException {
-    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
-    if (btSize != 0) getSubtreeList(getRoot(), treeList);
-    return treeList;
-  }// Above method employs the one below  
-  public void getSubtreeList(Node<E> n, NodeList<Node<E>> l) 
-  throws InvalidNodeException, EmptyTreeException {
-    l.addLast(n);
-    if (hasLeft(n)) getSubtreeList(n.getLeft(), l); 
-    if (hasRight(n)) getSubtreeList(n.getRight(), l);
-  }
-  // Lists the level at each node
-  public void getSubtreeLevelsList(Node<E> n, NodeList<Integer> l) 
-  throws InvalidNodeException, EmptyTreeException {
-    l.addLast(n.getLevel());
-    if (hasLeft(n)) getSubtreeLevelsList(n.getLeft(), l); 
-    if (hasRight(n)) getSubtreeLevelsList(n.getRight(), l);
-  } 
-  // For whole tree, from root
-  public NodeList<Node<E>> getTreeDiagramList() throws InvalidNodeException,
-  EmptyTreeException, EmptyListException, BoundaryException {
-    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
-    if (btSize != 0) getSubtreeDiagramList(getRoot(), treeList, 1);
-    return treeList;
-  }
-  // For subtree, defined from node
-  public NodeList<Node<E>> getTreeDiagramListFromNode(Node<E> n) 
-  throws InvalidNodeException, EmptyTreeException, EmptyListException,
-  BoundaryException {
-    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
-    if (btSize != 0) getSubtreeDiagramList(n, treeList, 1);
-    return treeList;
-  }// Above two methods employs the one below  
-  public void getSubtreeDiagramList(Node<E> n, NodeList<Node<E>> dl, int pos) 
-  throws InvalidNodeException, EmptyTreeException {
-    n.setPosition(pos);
-    dl.addLast(n);
-    int posn;
-    if (hasLeft(n)) { 
-      posn = pos*2 -1;
-      getSubtreeDiagramList(n.getLeft(), dl, posn); // Recursive
-    } 
-    if (hasRight(n)) { 
-      posn = pos*2;
-      getSubtreeDiagramList(n.getRight(), dl, posn); // Recursive   
-    }    
-  }
 
   public void setBTHeight(int i) {
     this.btHeight = i;
+  }
+  
+  public void setBTSize(int i) {
+    this.btSize = i;
   }
 
   public Node<E> setRoot(E e) throws TreeNotEmptyException {
@@ -177,6 +129,109 @@ public class BinaryTree<E> {
     n.setElement(e);
     return oldElement;
   }
+
+  // Below areauxiliary methods for listing tree node properties, including 
+  // for non-complete trees and subtrees. All lists may be printed out using
+  // other methods, and some are used by the printDiagram method. 
+  public NodeList<Node<E>> getTreeList() 
+  throws InvalidNodeException, EmptyTreeException {
+    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
+    if (btSize != 0) getSubtreeList(getRoot(), treeList);
+    return treeList;
+  }
+  // Above method employs the one below  
+  public void getSubtreeList(Node<E> n, NodeList<Node<E>> l) 
+  throws InvalidNodeException, EmptyTreeException {
+    l.addLast(n);
+    if (hasLeft(n)) getSubtreeList(n.getLeft(), l); 
+    if (hasRight(n)) getSubtreeList(n.getRight(), l);
+  }
+  // Lists the level at each node
+  public void getSubtreeLevelsList(Node<E> n, NodeList<Integer> l) 
+  throws InvalidNodeException, EmptyTreeException {
+    l.addLast(n.getLevel());
+    if (hasLeft(n)) getSubtreeLevelsList(n.getLeft(), l); 
+    if (hasRight(n)) getSubtreeLevelsList(n.getRight(), l);
+  } 
+  // For whole tree, from root
+  public NodeList<Node<E>> getTreeDiagramList() throws InvalidNodeException,
+  EmptyTreeException, EmptyListException, BoundaryException {
+    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
+    if (btSize != 0) getSubtreeDiagramList(getRoot(), treeList, 1);
+    return treeList;
+  }
+  // For subtree, defined from node
+  public NodeList<Node<E>> getTreeDiagramListFromNode(Node<E> n) 
+  throws InvalidNodeException, EmptyTreeException, EmptyListException,
+  BoundaryException {
+    NodeList<Node<E>> treeList = new NodeList<Node<E>>(); 
+    if (btSize != 0) getSubtreeDiagramList(n, treeList, 1);
+    return treeList;
+  }// Above two methods employs the one below  
+  public void getSubtreeDiagramList(Node<E> n, NodeList<Node<E>> dl, int pos) 
+  throws InvalidNodeException, EmptyTreeException {
+    n.setPosition(pos);
+    dl.addLast(n);
+    int posn;
+    if (hasLeft(n)) { 
+      posn = pos*2 -1;
+      getSubtreeDiagramList(n.getLeft(), dl, posn); // Recursive
+    } 
+    if (hasRight(n)) { 
+      posn = pos*2;
+      getSubtreeDiagramList(n.getRight(), dl, posn); // Recursive   
+    }    
+  }
+
+  // Print the elements stored in each node
+  public void printList(NodeList<Node<E>> nl) throws EmptyListException, 
+  InvalidNodeException, BoundaryException {
+    ListNode<Node<E>> nextNode = nl.getFirst();
+    for (int i = 0; i < nl.getNLSize() -1; i++) {     
+      System.out.print( nextNode.getElement().getElement() + " " );
+      nextNode = nl.getNext(nextNode);
+    } 
+    System.out.print( nextNode.getElement().getElement() + " " );
+    System.out.println();
+  }
+
+  // Main use is to print level of each node, when used after calling 
+  // getSubtreeLevelsList, although could be used whenever argument of
+  // NodeList<E> is applicable (compare to NodeList<Node<E>> for printList) 
+  public void printLevelList(NodeList<E> nl) throws EmptyListException, 
+  InvalidNodeException, BoundaryException {
+    ListNode<E> nextNode = nl.getFirst();
+    for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
+      System.out.print( nextNode.getElement() + " " );
+      nextNode = nl.getNext(nextNode);
+    } 
+    System.out.print( nextNode.getElement() + " ");
+    System.out.println();
+  }
+
+////////////////////////////////////////////////////////////////////////////
+  public void updateHeightAndSize() throws InvalidNodeException,
+  EmptyTreeException, EmptyListException, BoundaryException {
+    int max = 0;
+    int min = 0;
+    int count = 0;
+    NodeList<Integer> levelsList = new NodeList<Integer>();
+    this.getSubtreeLevelsList(this.getRoot(), levelsList);
+    ListNode<Integer> nextNode = levelsList.getFirst();
+    for (int i = 0; i < levelsList.getNLSize() -1; i++) { 
+      count++;    
+      min = nextNode.getElement();
+      if (min > max) max = min;
+      nextNode = levelsList.getNext(nextNode);
+    } 
+    count++; 
+    min = nextNode.getElement();
+    if (min > max) max = min; 
+    setBTHeight(max);
+    setBTSize(count);
+  }  
+////////////////////////////////////////////////////////////////////////
+
 
   //NEED TO POSSIBLY DECREMENT BTHEIGHT!
   //Remove a node, replace it with its one child if it exists, and return 
@@ -224,8 +279,7 @@ public class BinaryTree<E> {
     if (hasLeft(rootSub)) this.setDescendentLevels(rootSub.getLeft()); 
     if (hasRight(rootSub)) this.setDescendentLevels(rootSub.getRight()); 
   } 
- 
-  ////////////////////////////////////////////////////////////////////////
+
   //Remove entire subtree defined at the node entered as parameter from the
   //tree to which it belongs. Subtree may vary from a single external node
   //to the entire tree: in latter case the tree will be disestablished
@@ -242,6 +296,15 @@ public class BinaryTree<E> {
     //btSize--;//NEED TO FIND WAY TO ADJUST btSize//////////////////////////    
   }// end removeSubtree
   
+  //Remove all descendents of a node from its tree, but keep the node
+  public void removeDescendents(Node<E> n) throws InvalidNodeException,
+  BoundaryException {
+    Node<E> l = getLeft(n);
+    Node<E> r = getRight(n);
+    if (l != null) { l.setParent(null); n.setLeft(null); }
+    if (r != null) { r.setParent(null); n.setRight(null); }
+    //btSize--;//NEED TO FIND WAY TO ADJUST btSize//////////////////////////    
+  }// end removeSubtree
 
   // Attach two trees as subtrees of an external node
   // i.e. the roots of these trees become children of the node
@@ -272,31 +335,6 @@ public class BinaryTree<E> {
     }       
   }// end attachTrees
 
-  // Print the elements stored in each node
-  public void printList(NodeList<Node<E>> nl) throws EmptyListException, 
-  InvalidNodeException, BoundaryException {
-    ListNode<Node<E>> nextNode = nl.getFirst();
-    for (int i = 0; i < nl.getNLSize() -1; i++) {     
-      System.out.print( nextNode.getElement().getElement() + " " );
-      nextNode = nl.getNext(nextNode);
-    } 
-    System.out.print( nextNode.getElement().getElement() + " " );
-    System.out.println();
-  }
-
-  // Main use is to print level of each node, when used after calling 
-  // getSubtreeLevelsList, although could be used whenever argument of
-  // NodeList<E> is applicable (compare to NodeList<Node<E>> for printList) 
-  public void printLevelList(NodeList<E> nl) throws EmptyListException, 
-  InvalidNodeException, BoundaryException {
-    ListNode<E> nextNode = nl.getFirst();
-    for (int i = 0; i < nl.getNLSize() -1; i++) { // Only operates for size > 1;    
-      System.out.print( nextNode.getElement() + " " );
-      nextNode = nl.getNext(nextNode);
-    } 
-    System.out.print( nextNode.getElement() + " ");
-    System.out.println();
-  }
 
   public BinaryTree<Integer> createPopulatedIntegerTree(Integer[][] a) 
   throws EmptyTreeException, TreeNotEmptyException,
