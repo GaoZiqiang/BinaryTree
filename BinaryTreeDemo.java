@@ -99,6 +99,17 @@ public class BinaryTreeDemo {
     System.out.println();
     System.out.println("TREE WITH 6 LEVELS:");
     pop = pop.createPopulatedIntegerTree(e);
+   
+    NodeList<Node<Integer>> nodeListA; 
+    nodeListA = pop.getTreeList();
+    System.out.println("USE GETTREELIST FOR ELEMENTS");
+    pop.printList(nodeListA); 
+  
+    NodeList<Integer> levelsList = new NodeList<Integer>();
+    pop.getSubtreeLevelsList(pop.getRoot(), levelsList);
+    System.out.println("USE GETSUBTREELEVELSLIST FOR LEVELS");
+    pop.printLevelList(levelsList);
+
     pop.printDiagram(pop, pop.getRoot());
     System.out.println("DEMONSTRATE MORE EXTENSIVE NODE REMOVAL AND PROMOTION:");
     rt = pop.getRoot();
@@ -133,21 +144,32 @@ public class BinaryTreeDemo {
     pop.removeNode(llCh); // remove 1st node in 3rd level
     System.out.println("NOTE NODES PROMOTED THROUGH 3 LAYERS");
     pop.printDiagram(pop, pop.getRoot());
-    // remove all descendent nodes below 1st node 2nd level 
-    pop.removeNode(llrll); pop.removeNode(llrlr); pop.removeNode(llrrl);
-    pop.removeNode(llrrr); pop.removeNode(llrl);  pop.removeNode(llrr);    
-    pop.removeNode(llr); 
+    // remove all descendent nodes below node promoted to 1st node 3rd level 
+    pop.removeDescendents(llr); 
+    System.out.println("REMOVED ALL DESCENDENTS OF A NODE WITH REMOVEDESCENDENTS");
+    pop.printDiagram(pop, pop.getRoot());
+    pop.removeNode(llr); // now remove the node itself
     pop.printDiagram(pop, pop.getRoot());
     pop.removeNode(lCh); // remove 1st node in 2nd level
     System.out.println("NODES NOW PROMOTED THROUGH 4 LAYERS");
-    pop.printDiagram(pop, pop.getRoot());   
+    pop.printDiagram(pop, pop.getRoot()); 
+    pop.updateHeightAndSize();
+    System.out.println("POP Size: " + pop.getBTSize());
+    System.out.println("POP Height: " + pop.getBTHeight());
+    System.out.println(); 
    
     rCh = rt.getRight();
     pop.removeSubtree(rCh); // remove subtree from 2nd node in 2nd level
     System.out.println("DELETE ENTIRE RIGHT OF TREE BY REMOVESUBTREE:");
     pop.printDiagram(pop, pop.getRoot());
 
-   //TO DO: METHOD TO DELETE ALL DESCENDENTS BUT NOT ENTERED NODE////////// 
+    NodeList<Node<Integer>> popNodeList = pop.getTreeDiagramList();
+    pop.printList(popNodeList); 
+    
+    pop.updateHeightAndSize();
+    System.out.println("POP Size: " + pop.getBTSize());
+    System.out.println("POP Height: " + pop.getBTHeight());
+
   }// end level5NodesTest
 
 
