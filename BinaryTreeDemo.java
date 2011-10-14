@@ -153,6 +153,7 @@ public class BinaryTreeDemo {
     pop.removeNode(lCh); // remove 1st node in 2nd level
     System.out.println("NODES NOW PROMOTED THROUGH 4 LAYERS");
     pop.printDiagram(pop, pop.getRoot()); 
+
     pop.updateHeightAndSize();
     System.out.println("POP Size: " + pop.getBTSize());
     System.out.println("POP Height: " + pop.getBTHeight());
@@ -162,13 +163,34 @@ public class BinaryTreeDemo {
     pop.removeSubtree(rCh); // remove subtree from 2nd node in 2nd level
     System.out.println("DELETE ENTIRE RIGHT OF TREE BY REMOVESUBTREE:");
     pop.printDiagram(pop, pop.getRoot());
-
     NodeList<Node<Integer>> popNodeList = pop.getTreeDiagramList();
-    pop.printList(popNodeList); 
-    
-    pop.updateHeightAndSize();
+    pop.printList(popNodeList);     
     System.out.println("POP Size: " + pop.getBTSize());
     System.out.println("POP Height: " + pop.getBTHeight());
+
+    lCh = rt.getLeft();
+    pop.removeDescendents(lCh); 
+    System.out.println("REMOVED ALL DESCENDENTS OF LEFT NODE 2ND LEVEL:");
+    pop.printDiagram(pop, pop.getRoot());
+
+    BinaryTree<Integer> leftAttach = new BinaryTree<Integer>();
+    BinaryTree<Integer> rightAttach = new BinaryTree<Integer>();
+    Node<Integer> lft = leftAttach.setRoot(8);
+    leftAttach.setLeft(lft, 7);
+    leftAttach.setRight(lft, 6);
+    Node<Integer> rght = rightAttach.setRoot(9); 
+    rightAttach.setLeft(rght, 5);
+    rightAttach.setRight(rght, 5);   
+    pop.attachTrees(lCh, leftAttach, rightAttach);
+    System.out.println("USE ATTACHTREES:");
+    pop.printDiagram(pop, pop.getRoot());
+    System.out.println("POP Size: " + pop.getBTSize());
+    System.out.println("POP Height: " + pop.getBTHeight());
+
+    int[] path = {0,1,};
+    Node<Integer> accessedNode = pop.accessNode(pop, path);
+    int accessedElement = accessedNode.getElement();
+    System.out.println("Directly accessed node, holding: " + accessedElement);
 
   }// end level5NodesTest
 
