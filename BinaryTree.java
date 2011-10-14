@@ -12,9 +12,17 @@ public class BinaryTree<E> {
     root = null;   
   }
   
-  public int getBTSize() {return btSize;}
+  public int getBTSize() throws InvalidNodeException, EmptyTreeException,
+  EmptyListException, BoundaryException {
+    this.updateHeightAndSize();
+    return btSize;
+  }
 
-  public int getBTHeight() {return btHeight;}
+  public int getBTHeight() throws InvalidNodeException, EmptyTreeException,
+  EmptyListException, BoundaryException {
+    this.updateHeightAndSize();
+    return btHeight;
+  }
   
   public Node<E> getRoot() throws EmptyTreeException {
     if (root == null) throw new EmptyTreeException("Empty tree");
@@ -96,6 +104,7 @@ public class BinaryTree<E> {
     return root;
   }
 
+  // N.B. different signature to class Node method setLeft
   public Node<E> setLeft(Node<E> n, E e) throws InvalidNodeException {
     Node<E> test = getLeft(n);
     if (test != null) throw new InvalidNodeException("Node already has left child");
@@ -209,7 +218,6 @@ public class BinaryTree<E> {
     System.out.println();
   }
 
-////////////////////////////////////////////////////////////////////////////
   public void updateHeightAndSize() throws InvalidNodeException,
   EmptyTreeException, EmptyListException, BoundaryException {
     int max = 0;
@@ -230,10 +238,7 @@ public class BinaryTree<E> {
     setBTHeight(max);
     setBTSize(count);
   }  
-////////////////////////////////////////////////////////////////////////
 
-
-  //NEED TO POSSIBLY DECREMENT BTHEIGHT!
   //Remove a node, replace it with its one child if it exists, and return 
   //element stored at the removed node. All descendents of child also promoted.
   //Attempt to remove node with two children causes an error.
@@ -268,7 +273,6 @@ public class BinaryTree<E> {
         setDescendentLevels(n);       
       } 
     }
-    btSize--;
     return n.getElement();
   }// end removeNode
  
@@ -284,7 +288,7 @@ public class BinaryTree<E> {
   //tree to which it belongs. Subtree may vary from a single external node
   //to the entire tree: in latter case the tree will be disestablished
   public void removeSubtree(Node<E> n) throws InvalidNodeException,
-  BoundaryException {
+  BoundaryException, EmptyTreeException, EmptyListException {
     Node<E> l = getLeft(n);
     Node<E> r = getRight(n);
     if (l != null) l.setParent(null);
@@ -292,33 +296,24 @@ public class BinaryTree<E> {
     if (n != root) {  // Subtree root is not the root of entire tree      
       Node<E> p = n.getParent(); // So its parent will become an external node
       if (n == p.getLeft()) p.setLeft(null); else p.setRight(null);       
-    }
-    //btSize--;//NEED TO FIND WAY TO ADJUST btSize//////////////////////////    
+    }  
   }// end removeSubtree
   
   //Remove all descendents of a node from its tree, but keep the node
   public void removeDescendents(Node<E> n) throws InvalidNodeException,
-  BoundaryException {
+  BoundaryException, EmptyTreeException, EmptyListException {
     Node<E> l = getLeft(n);
     Node<E> r = getRight(n);
     if (l != null) { l.setParent(null); n.setLeft(null); }
     if (r != null) { r.setParent(null); n.setRight(null); }
-    //btSize--;//NEED TO FIND WAY TO ADJUST btSize//////////////////////////    
-  }// end removeSubtree
+  }// end removeDescendents
 
   // Attach two trees as subtrees of an external node
   // i.e. the roots of these trees become children of the node
   public void attachTrees(Node<E> n, BinaryTree<E> TLeft, BinaryTree<E> TRight) 
   throws InvalidNodeException, EmptyTreeException {
-    if (isInternal(n)) throw new InvalidNodeException("Node is not external");
-    btSize = btSize + TLeft.getBTSize() + TRight.getBTSize();
-    int TLeftHeight = TLeft.getBTHeight();
-    int TRightHeight = TRight.getBTHeight();
-    int maxSubHeight = (TLeftHeight > TRightHeight) ? TLeftHeight : TRightHeight;
-    int oldHeight = this.getBTHeight();
+    if (isInternal(n)) throw new InvalidNodeException("Node is not external");    
     int attachmentNodeLevel = n.getLevel(); 
-    int hOffset = oldHeight - attachmentNodeLevel;
-    this.setBTHeight(oldHeight + maxSubHeight - hOffset);
     if (!TLeft.isEmpty()) {
       Node<E> leftTreeRoot = TLeft.getRoot();
       n.setLeft(leftTreeRoot);
@@ -334,6 +329,28 @@ public class BinaryTree<E> {
       setDescendentLevels(rightTreeRoot);
     }       
   }// end attachTrees
+
+  // Return any node in a tree (except root) by specifying its path from the root
+  // in an array holding only int 0 and 1, signaling left and right respectively
+  // e.g {0,0,1,0} yielding left-left-right-left. 
+  // If sequence exceeds depth of tree then last non-null node traversed is returned
+  // (i.e. the external node reached by sequence is returned, and remainder of 
+  // sequence is ignored). 
+  public Node<E> accessNode(BinaryTree<E> bt, int[] path) throws EmptyTreeException {
+    Node<E> n = bt.getRoot();
+    Node<E> m;
+    for (int i = 0; i < path.length; i++) {
+      if (path[i] == 0) {
+        m = getLeft(n);
+        if (m != null) n = m;
+      }
+      if (path[i] == 1) {
+        m = getRight(n);
+        if (m != null) n = m;
+      }
+    }
+    return n;
+  }// end accessNode
 
 
   public BinaryTree<Integer> createPopulatedIntegerTree(Integer[][] a) 
@@ -646,7 +663,7 @@ class Node<E> {
   public int getLevel() {return level;}
   public int getPosition() {return position;}
   public void setParent(Node<E> p) {parent = p;}
-  public void setLeft(Node<E> l) {left = l;}
+  public void setLeft(Node<E> l) {left = l;} //different signature to BinaryTree's setLeft
   public void setRight(Node<E> r) {right = r;}
   public void setElement(E e) {element = e;}
   public void setLevel(int i) {level = i;}
