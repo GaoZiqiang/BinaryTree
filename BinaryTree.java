@@ -415,6 +415,11 @@ public class BinaryTree<E> {
     NodeList<Node<E>> level4 = new NodeList<Node<E>>();
     NodeList<Node<E>> level5 = new NodeList<Node<E>>();
     NodeList<Node<E>> level6 = new NodeList<Node<E>>();
+    int[] a2 = {39, 3, 80, 80};
+    int[] a3 = {19, 5, 40, 40};
+    int[] a4 = {9, 9, 20, 20};
+    int[] a5 = {4, 17, 10, 10};
+    int[] a6 = {2, 33, 6, 4};
     int lev;
     int size = nl.getNLSize();
     ListNode<Node<E>> lndn = nl.getFirst(); // is root of printed tree (or subtree)
@@ -435,11 +440,11 @@ public class BinaryTree<E> {
     for (int proxyLev = 1; proxyLev < diagramHeight + 1; proxyLev++) {        
       switch (proxyLev) { 
         case 1:  processRoot(n); break;
-        case 2:  processLevel2(level2); break;
-        case 3:  processLevel3(level3); break;
-        case 4:  processLevel4(level4); break;
-        case 5:  processLevel5(level5); break;
-        case 6:  processLevel6(level6); break; 
+        case 2:  processLevel(level2, a2); break;
+        case 3:  processLevel(level3, a3); break;
+        case 4:  processLevel(level4, a4); break;
+        case 5:  processLevel(level5, a5); break;
+        case 6:  processLevel(level6, a6); break; 
         default: ;  break;
       } 
     }
@@ -456,38 +461,8 @@ public class BinaryTree<E> {
     }
   }// end processRoot
 
-  public void processLevel2(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
-    int tally = 0;
-    int size = nl.getNLSize();
-    if (size == 0) return;
-    int posDeficit = 0;
-    int posDefPrev = 0;
-    ListNode<Node<E>> ln = nl.getFirst();
-    Node<E> node = ln.getElement();
-    E e = node.getElement();
-    int pos = node.getPosition();     
-    // process first node
-    if (pos == 1) tally += printSpaces(39); 
-    else tally += printSpaces(119 - tally);
-    if (e != null) System.out.print(e); else System.out.print(" ");
-    tally++;
-    // process second node if exists
-    if (size == 2) {
-      ln = nl.getNext(ln);
-      node = ln.getElement();
-      e = node.getElement();
-      pos = node.getPosition(); 
-      if (pos == 2) {
-        tally += printSpaces(119 - tally);
-        if (e != null) System.out.print(e); else System.out.print(" ");
-      }
-    }
-    System.out.println();    
-  }// end processLevel2
-
-    public void processLevel3(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
+  public void processLevel(NodeList<Node<E>> nl, int[] a) 
+  throws InvalidNodeException, EmptyListException, BoundaryException {
     int tally = 0;
     int size = nl.getNLSize();
     if (size == 0) return;
@@ -498,63 +473,7 @@ public class BinaryTree<E> {
     E e = node.getElement();
     int pos = node.getPosition();
     // process first node
-    tally = iterateSpaces(tally, pos, 19, 5, 40, 40);
-    if (e != null) System.out.print(e); else System.out.print(" ");
-    tally++;
-    // process all nodes after first    
-    for (int i = 1; i < size; i++) { 
-      ln = nl.getNext(ln);
-      node = ln.getElement();
-      e = node.getElement();
-      pos = node.getPosition();
-      tally = iterateSpaces(tally, pos, 19, 5, 40, 40);
-      if (e != null) System.out.print(e); else System.out.print(" ");
-      tally++;
-    }// end for
-    System.out.println();    
-  }// end processLevel3
-
-  public void processLevel4(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
-    int tally = 0;
-    int size = nl.getNLSize();
-    if (size == 0) return;
-    int posDeficit = 0;
-    int posDefPrev = 0;
-    ListNode<Node<E>> ln = nl.getFirst();
-    Node<E> node = ln.getElement();
-    E e = node.getElement();
-    int pos = node.getPosition();
-    // process first node
-    tally = iterateSpaces(tally, pos, 9, 9, 20, 20);
-    if (e != null) System.out.print(e); else System.out.print(" ");
-    tally++;
-    // process all nodes after first
-    for (int i = 1; i < size; i++) { 
-      ln = nl.getNext(ln);
-      node = ln.getElement();
-      e = node.getElement();
-      pos = node.getPosition();
-      tally = iterateSpaces(tally, pos, 9, 9, 20, 20);
-      if (e != null) System.out.print(e); else System.out.print(" ");
-      tally++;
-    }// end for
-    System.out.println();    
-  }// end processLevel4
-
-  public void processLevel5(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
-    int tally = 0;
-    int size = nl.getNLSize();
-    if (size == 0) return;
-    int posDeficit = 0;
-    int posDefPrev = 0;
-    ListNode<Node<E>> ln = nl.getFirst();
-    Node<E> node = ln.getElement();
-    E e = node.getElement();
-    int pos = node.getPosition();
-    // process first node
-    tally = iterateSpaces(tally, pos, 4, 17, 10, 10);
+    tally = iterateSpaces(tally, pos, a[0], a[1], a[2], a[3]);
     if (e != null) System.out.print(e); else System.out.print(" ");
     tally++;
     // process all nodes after first
@@ -563,40 +482,12 @@ public class BinaryTree<E> {
       node = ln.getElement();
       e = node.getElement();
       pos = node.getPosition(); 
-      tally = iterateSpaces(tally, pos, 4, 17, 10, 10);
+      tally = iterateSpaces(tally, pos, a[0], a[1], a[2], a[3]);
       if (e != null) System.out.print(e); else System.out.print(" ");
       tally++;
     }// end for
     System.out.println();    
-  }// end processLevel5
-
-  public void processLevel6(NodeList<Node<E>> nl) throws InvalidNodeException, 
-  EmptyListException, BoundaryException {
-    int tally = 0;
-    int size = nl.getNLSize();
-    if (size == 0) return;
-    int posDeficit = 0;
-    int posDefPrev = 0;
-    ListNode<Node<E>> ln = nl.getFirst();
-    Node<E> node = ln.getElement();
-    E e = node.getElement();
-    int pos = node.getPosition();
-    // process first node
-    tally = iterateSpaces(tally, pos, 2, 33, 6, 4);
-    if (e != null) System.out.print(e); else System.out.print(" ");
-    tally++;
-    // process all nodes after first
-    for (int i = 1; i < size; i++) { 
-      ln = nl.getNext(ln);
-      node = ln.getElement();
-      e = node.getElement();
-      pos = node.getPosition(); 
-      tally = iterateSpaces(tally, pos, 2, 33, 6, 4);
-      if (e != null) System.out.print(e); else System.out.print(" ");
-      tally++;
-    }// end for
-    System.out.println();    
-  }// end processLevel6
+  }// end processDiagramLevel
 
   public int printSpaces(int number){
     int t = 0;
@@ -679,11 +570,7 @@ class ListNode<E> {
     previous = p;
     next = n;
   }
-  public E getElement() throws InvalidNodeException {
-    if ((previous == null) && (next == null)) 
-      throw new InvalidNodeException("Invalid node");
-    return element;
-  }
+  public E getElement() {return element;}
   public ListNode<E> getPrevious() {return previous;}
   public ListNode<E> getNext() {return next;}  
   public void setPrevious(ListNode<E> p) {previous = p;}
@@ -734,7 +621,14 @@ class NodeList<E> {
     head.getNext().setPrevious(n);
     head.setNext(n);
   }
-    
+  
+  //Set new element at given node, return old
+  public E setElement(ListNode<E> ln, E e) throws InvalidNodeException {
+    E oldElement = ln.getElement();
+    ln.setElement(e);
+    return oldElement;
+  }
+
   public void addLast(E e) {
     nlSize ++;
     ListNode<E> n = new ListNode<E>(e, tail.getPrevious(), tail);
@@ -742,13 +636,42 @@ class NodeList<E> {
     tail.setPrevious(n);      
   }
     
-  //more to do
+  public void addBeforeNode(ListNode<E> ln, E e) {
+    nlSize ++;
+    ListNode<E> n = new ListNode<E>(e, ln.getPrevious(), ln);
+    ln.getPrevious().setNext(n);
+    ln.setPrevious(n);
+  }
+
+  public void addAfterNode(ListNode<E> ln, E e) {
+    nlSize ++;
+    ListNode<E> n = new ListNode<E>(e, ln, ln.getNext());
+    ln.getNext().setPrevious(n);
+    ln.setNext(n);
+  }
+
+  //Remove node from list and return its element
+  public E removeNode(ListNode<E> ln) throws InvalidNodeException {
+    nlSize --;
+    ListNode<E> previous = ln.getPrevious();
+    ListNode<E> next = ln.getNext();
+    previous.setNext(next);
+    next.setPrevious(previous);
+    E e = ln.getElement();
+    ln.setPrevious(null);
+    ln.setNext(null);
+    return e;
+  }
 
   public boolean isEmpty() {return (nlSize == 0);}
 
+  public int size() {return nlSize;}
+
+  
+
 }// End class NodeList<E>
 
-
+ 
 class InvalidNodeException extends Exception {
   public InvalidNodeException(String s){
     System.out.println(s);
@@ -777,5 +700,5 @@ class TreeNotEmptyException extends Exception {
   public TreeNotEmptyException(String s){
     System.out.println(s);
   }
-}
+} 
 
