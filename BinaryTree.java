@@ -1,3 +1,5 @@
+// Author: Steve Savia ('stevesavia' @ github.com)
+
 import java.util.*;
 
 public class BinaryTree<E> {

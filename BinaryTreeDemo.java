@@ -1,3 +1,4 @@
+// Author: Steve Savia ('stevesavia' @ github.com)
 
 public class BinaryTreeDemo {
 
